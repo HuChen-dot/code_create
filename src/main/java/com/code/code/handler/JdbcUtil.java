@@ -12,13 +12,13 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class JdbcUtil {
 
-    private static String driver = PropertiesUtils.get("database.properties", "driver");
+    private static String driver = PropertiesUtils.get("application.properties", "driver");
 
-    private static String url = PropertiesUtils.get("database.properties", "url");
+    private static String url = PropertiesUtils.get("application.properties", "url");
 
-    private static String user = PropertiesUtils.get("database.properties", "user");
+    private static String user = PropertiesUtils.get("application.properties", "user");
 
-    private static String password = PropertiesUtils.get("database.properties", "password");
+    private static String password = PropertiesUtils.get("application.properties", "password");
 
 
     private static int connect = 2;

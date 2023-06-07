@@ -16,7 +16,7 @@ public class TableHandler {
 
     private List<String> tableExceptList = new ArrayList<String>();
 
-    private static String DBDRIVER = PropertiesUtils.get("database.properties", "driver");
+    private static String DBDRIVER = PropertiesUtils.get("application.properties", "driver");
 
     public void addExceptTable(String tableName) {
         tableExceptList.add(tableName);
