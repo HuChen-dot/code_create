@@ -37,12 +37,20 @@ public class FreeMarkerUtils {
             catalogue.mkdirs();
         }
         Writer writer = null;
+        FileOutputStream fileOutputStream = null;
         try {
-            writer = new OutputStreamWriter(new FileOutputStream(savePath + "/" + fileName), "UTF-8");
-
+            fileOutputStream = new FileOutputStream(savePath + "/" + fileName);
+            writer = new OutputStreamWriter(fileOutputStream, "UTF-8");
             template.process(input, writer);
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            try {
+                writer.close();
+                fileOutputStream.close();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 
