@@ -3,6 +3,9 @@ import ${mapper}.${table.className}Mapper;
 import ${pojo}.${table.className};
 import ${service}.${table.className}Service;
 import org.springframework.stereotype.Service;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.*;
 
 /**
@@ -68,7 +71,7 @@ public class ${table.className}ServiceImpl implements ${table.className}Service 
         public Integer delete${table.className}ById(Integer id){
                 Map<String, Object> param = new HashMap<>();
                 param.put("id", id);
-                return ${lowerClassName}Mapper.delete(map);
+                return ${lowerClassName}Mapper.delete(param);
         }
 
 
