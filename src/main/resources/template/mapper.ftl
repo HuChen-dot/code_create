@@ -38,7 +38,7 @@
         <trim prefix="where" prefixOverrides="and | or">
             <#list table.cloumns as cloumn>
                 <#if cloumn_has_next>
-                    <if test="${cloumn.fieldName} != null">
+                    <if test="${cloumn.fieldName} != null and ${cloumn.fieldName} != ''">
                         and ${cloumn.cloumnName}=${r"#{"}${cloumn.fieldName}}
                     </if>
                 </#if>
@@ -66,7 +66,7 @@
         <trim prefix="where" prefixOverrides="and | or">
             <#list table.cloumns as cloumn>
                 <#if cloumn_has_next>
-                    <if test="${cloumn.fieldName} != null">
+                    <if test="${cloumn.fieldName} != null and ${cloumn.fieldName} != ''">
                         and ${cloumn.cloumnName}=${r"#{"}${cloumn.fieldName}}
                     </if>
                 </#if>
@@ -94,7 +94,7 @@
                             ${cloumn.cloumnName},
                         </#if>
                         <#if  cloumn.cloumnName!='update_time' && cloumn.cloumnName!='create_time'>
-                            <if test="${cloumn.fieldName} != null">
+                            <if test="${cloumn.fieldName} != null and ${cloumn.fieldName} != ''">
                                 ${cloumn.cloumnName},
                             </if>
                         </#if>
@@ -105,7 +105,7 @@
                             ${cloumn.cloumnName}
                         </#if>
                         <#if  cloumn.cloumnName!='update_time' && cloumn.cloumnName!='create_time'>
-                            <if test="${cloumn.fieldName} != null">
+                            <if test="${cloumn.fieldName} != null and ${cloumn.fieldName} != ''">
                                 ${cloumn.cloumnName}
                             </if>
                         </#if>
@@ -123,7 +123,7 @@
                             now(),
                         </#if>
                         <#if  cloumn.cloumnName!='update_time' && cloumn.cloumnName!='create_time'>
-                            <if test="${cloumn.fieldName} != null">
+                            <if test="${cloumn.fieldName} != null and ${cloumn.fieldName} != ''">
                                 ${r"#{"}${cloumn.fieldName}},
                             </if>
                         </#if>
@@ -134,7 +134,7 @@
                             now()
                         </#if>
                         <#if  cloumn.cloumnName!='update_time' && cloumn.cloumnName!='create_time'>
-                            <if test="${cloumn.fieldName} != null">
+                            <if test="${cloumn.fieldName} != null and ${cloumn.fieldName} != ''">
                                 ${r"#{"}${cloumn.fieldName}}
                             </if>
                         </#if>
@@ -202,7 +202,7 @@
                         ${cloumn.cloumnName},
                     </#if>
                     <#if  cloumn.cloumnName!='update_time' && cloumn.cloumnName!='create_time'>
-                        <if test="${cloumn.fieldName} != null">
+                        <if test="${cloumn.fieldName} != null and ${cloumn.fieldName} != ''">
                             ${cloumn.cloumnName},
                         </if>
                     </#if>
@@ -211,7 +211,7 @@
                         ${cloumn.cloumnName}
                     </#if>
                     <#if  cloumn.cloumnName!='update_time' && cloumn.cloumnName!='create_time'>
-                        <if test="${cloumn.fieldName} != null">
+                        <if test="${cloumn.fieldName} != null and ${cloumn.fieldName} != ''">
                             ${cloumn.cloumnName}
                         </if>
                     </#if>
@@ -227,7 +227,7 @@
                         now(),
                     </#if>
                     <#if  cloumn.cloumnName!='update_time' && cloumn.cloumnName!='create_time'>
-                        <if test="${cloumn.fieldName} != null">
+                        <if test="${cloumn.fieldName} != null and ${cloumn.fieldName} != ''">
                             ${r"#{"}${cloumn.fieldName}},
                         </if>
                     </#if>
@@ -236,7 +236,7 @@
                         now()
                     </#if>
                     <#if  cloumn.cloumnName!='update_time' && cloumn.cloumnName!='create_time'>
-                        <if test="${cloumn.fieldName} != null">
+                        <if test="${cloumn.fieldName} != null and ${cloumn.fieldName} != ''">
                             ${r"#{"}${cloumn.fieldName}}
                         </if>
                     </#if>
@@ -252,7 +252,7 @@
                         ${cloumn.cloumnName}=now(),
                     </#if>
                     <#if  cloumn.cloumnName!='update_time'>
-                        <if test="${cloumn.fieldName} != null">
+                        <if test="${cloumn.fieldName} != null and ${cloumn.fieldName} != ''">
                             ${cloumn.cloumnName}=${r"#{"}${cloumn.fieldName}},
                         </if>
                     </#if>
@@ -261,7 +261,7 @@
                         ${cloumn.cloumnName}=now()
                     </#if>
                     <#if  cloumn.cloumnName!='update_time'>
-                        <if test="${cloumn.fieldName} != null">
+                        <if test="${cloumn.fieldName} != null and ${cloumn.fieldName} != ''">
                             ${cloumn.cloumnName}=${r"#{"}${cloumn.fieldName}}
                         </if>
                     </#if>
@@ -281,7 +281,7 @@
                             ${cloumn.cloumnName}=now(),
                         </#if>
                         <#if  cloumn.cloumnName!='update_time'>
-                            <if test="${cloumn.fieldName} != null">
+                            <if test="${cloumn.fieldName} != null and ${cloumn.fieldName} != ''">
                                 ${cloumn.cloumnName}=${r"#{"}${cloumn.fieldName}},
                             </if>
                         </#if>
@@ -292,7 +292,7 @@
                             ${cloumn.cloumnName}=now()
                         </#if>
                         <#if  cloumn.cloumnName!='update_time'>
-                            <if test="${cloumn.fieldName} != null">
+                            <if test="${cloumn.fieldName} != null and ${cloumn.fieldName} != ''">
                                 ${cloumn.cloumnName}=${r"#{"}${cloumn.fieldName}}
                             </if>
                         </#if>
@@ -317,7 +317,7 @@
         <trim prefix="where" prefixOverrides="and | or">
             <#list table.cloumns as cloumn>
                 <#if cloumn_has_next>
-                    <if test="${cloumn.fieldName} != null">
+                    <if test="${cloumn.fieldName} != null and ${cloumn.fieldName} != ''">
                         and ${cloumn.cloumnName}=${r"#{"}${cloumn.fieldName}}
                     </if>
                 </#if>
