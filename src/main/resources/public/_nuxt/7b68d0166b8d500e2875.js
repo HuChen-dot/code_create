@@ -12,7 +12,7 @@
             }, [e("img", {
                 staticClass: "brand-image img-circle elevation-3",
                 staticStyle: {opacity: ".8"},
-                attrs: {alt: "Mybatis-Plus代码生成器001", src: n(445)}
+                attrs: {alt: "Mapper代码生成器", src: n(445)}
             }), this._v(" "), e("span", {staticClass: "brand-text font-weight-light"}, [this._v("Mybatis-Plus代码生成器001")])])
         }, function () {
             var t = this.$createElement, e = this._self._c || t;
@@ -44,7 +44,7 @@
                     "aria-haspopup": "true",
                     "aria-expanded": "false"
                 }
-            }, [t._v("Table代码生成错误")]), t._v(" "), n("ul", {
+            }, [t._v("")]), t._v(" "), n("ul", {
                 staticClass: "dropdown-menu border-0 shadow",
                 attrs: {"aria-labelledby": "tableMenuDropdown"}
             }, [n("li", [n("router-link", {
@@ -56,7 +56,7 @@
             }, [t._v("输出配置002")])], 1)])]), t._v(" "), n("li", {staticClass: "nav-item"}, [n("router-link", {
                 staticClass: "nav-link",
                 attrs: {to: "/sql001"}
-            }, [t._v("SQL代码生成001")])], 1), t._v(" "), t._m(1)])])])]), t._v(" "), n("div", {staticClass: "content-wrapper"}, [n("nuxt-child", {key: t.viewKey})], 1)])
+            }, [t._v("")])], 1), t._v(" "), t._m(1)])])])]), t._v(" "), n("div", {staticClass: "content-wrapper"}, [n("nuxt-child", {key: t.viewKey})], 1)])
         }), r, !1, null, null, null);
         e.default = component.exports
     }

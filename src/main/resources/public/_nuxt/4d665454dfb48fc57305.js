@@ -300,7 +300,7 @@
                 })], 1), e._v(" "), o("div", {staticStyle: {"margin-top": "10px"}}, [o("el-button", {
                     attrs: {type: "primary"},
                     on: {click: e.genDtoFile}
-                }, [e._v("生成Mapper方法&DTO001")])], 1)], 1), e._v(" "), o("el-dialog", {
+                }, [e._v("生成Mapper方法&DTO")])], 1)], 1), e._v(" "), o("el-dialog", {
                     attrs: {
                         modal: !1,
                         title: "动态SQL增强示例",
