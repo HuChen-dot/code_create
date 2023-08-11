@@ -13,7 +13,7 @@
                 staticClass: "brand-image img-circle elevation-3",
                 staticStyle: {opacity: ".8"},
                 attrs: {alt: "Mapper代码生成器", src: n(445)}
-            }), this._v(" "), e("span", {staticClass: "brand-text font-weight-light"}, [this._v("Mybatis-Plus代码生成器001")])])
+            }), this._v(" "), e("span", {staticClass: "brand-text font-weight-light"}, [this._v("Mapper代码生成器")])])
         }, function () {
             var t = this.$createElement, e = this._self._c || t;
             return e("li", {staticClass: "nav-item"}, [e("a", {
