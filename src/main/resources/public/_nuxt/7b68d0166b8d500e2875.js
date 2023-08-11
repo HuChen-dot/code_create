@@ -50,12 +50,12 @@
             }, [n("li", [n("router-link", {
                 staticClass: "dropdown-item",
                 attrs: {to: "/table"}
-            }, [t._v("Table查询002")])], 1), t._v(" "), n("li", [n("router-link", {
+            }, [t._v("Table查询")])], 1), t._v(" "), n("li", [n("router-link", {
                 staticClass: "dropdown-item",
                 attrs: {to: "/config"}
-            }, [t._v("输出配置002")])], 1)])]), t._v(" "), n("li", {staticClass: "nav-item"}, [n("router-link", {
+            }, [t._v("输出配置")])], 1)])]), t._v(" "), n("li", {staticClass: "nav-item"}, [n("router-link", {
                 staticClass: "nav-link",
-                attrs: {to: "/sql001"}
+                attrs: {to: "/sql"}
             }, [t._v("")])], 1), t._v(" "), t._m(1)])])])]), t._v(" "), n("div", {staticClass: "content-wrapper"}, [n("nuxt-child", {key: t.viewKey})], 1)])
         }), r, !1, null, null, null);
         e.default = component.exports
