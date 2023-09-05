@@ -4,9 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="${mapper}.${table.className}Mapper">
 
-    <!-- 主键查询 -->
-    <select id="selectByPrimaryKey" resultType="${pojo}.${table.className}">
-        select
+    <sql id="Base_Column_List">
         <#list table.cloumns as cloumn>
             <#if cloumn_has_next>
                 ${cloumn.cloumnName} as ${cloumn.fieldName},
@@ -14,6 +12,22 @@
                 ${cloumn.cloumnName} as ${cloumn.fieldName}
             </#if>
         </#list>
+    </sql>
+
+    <sql id="Base_Column_List_if">
+        <#list table.cloumns as cloumn>
+            <#if cloumn_has_next>
+                <if test="${cloumn.fieldName} != null">
+                    and ${cloumn.cloumnName}=${r"#{"}${cloumn.fieldName}}
+                </if>
+            </#if>
+        </#list>
+    </sql>
+
+    <!-- 主键查询 -->
+    <select id="selectByPrimaryKey" resultType="${pojo}.${table.className}">
+        select
+        <include refid="Base_Column_List"/>
         from `${table.tableName}`
         <#list table.cloumns as cloumn>
             <#if cloumn_index==0>
@@ -27,26 +41,14 @@
     <select id="select" resultType="${pojo}.${table.className}"
             parameterType="java.util.Map">
         select
-        <#list table.cloumns as cloumn>
-            <#if cloumn_has_next>
-                ${cloumn.cloumnName} as ${cloumn.fieldName},
-            <#else>
-                ${cloumn.cloumnName} as ${cloumn.fieldName}
-            </#if>
-        </#list>
+        <include refid="Base_Column_List"/>
         from `${table.tableName}`
         <trim prefix="where" prefixOverrides="and | or">
-            <#list table.cloumns as cloumn>
-                <#if cloumn_has_next>
-                    <if test="${cloumn.fieldName} != null and ${cloumn.fieldName} != ''">
-                        and ${cloumn.cloumnName}=${r"#{"}${cloumn.fieldName}}
-                    </if>
-                </#if>
-            </#list>
-            <#--            <if test="startTime != null">-->
-            <#--                <!--创建时间大于开始时间，创建时间小于结束时间 &ndash;&gt;-->
-            <#--                and create_time &gt;= #{startTime} and create_time &lt;= #{endTime}-->
-            <#--            </if>-->
+            <include refid="Base_Column_List_if"/>
+<#--                        <if test="startTime != null">-->
+<#--                            <!--创建时间大于开始时间，创建时间小于结束时间 &ndash;&gt;-->
+<#--                            and create_time &gt;= #{startTime} and create_time &lt;= #{endTime}-->
+<#--                        </if>-->
         </trim>
     </select>
 
@@ -55,22 +57,10 @@
     <select id="flowSelect" resultType="${pojo}.${table.className}"
             parameterType="java.util.Map" fetchSize="200">
         select
-        <#list table.cloumns as cloumn>
-            <#if cloumn_has_next>
-                ${cloumn.cloumnName} as ${cloumn.fieldName},
-            <#else>
-                ${cloumn.cloumnName} as ${cloumn.fieldName}
-            </#if>
-        </#list>
+        <include refid="Base_Column_List"/>
         from `${table.tableName}`
         <trim prefix="where" prefixOverrides="and | or">
-            <#list table.cloumns as cloumn>
-                <#if cloumn_has_next>
-                    <if test="${cloumn.fieldName} != null and ${cloumn.fieldName} != ''">
-                        and ${cloumn.cloumnName}=${r"#{"}${cloumn.fieldName}}
-                    </if>
-                </#if>
-            </#list>
+            <include refid="Base_Column_List_if"/>
         </trim>
     </select>
 
@@ -311,17 +301,5 @@
         </trim>
     </update>
 
-    <!--  删除 -->
-    <delete id="delete" parameterType="map">
-        delete from `${table.tableName}`
-        <trim prefix="where" prefixOverrides="and | or">
-            <#list table.cloumns as cloumn>
-                <#if cloumn_has_next>
-                    <if test="${cloumn.fieldName} != null and ${cloumn.fieldName} != ''">
-                        and ${cloumn.cloumnName}=${r"#{"}${cloumn.fieldName}}
-                    </if>
-                </#if>
-            </#list>
-        </trim>
-    </delete>
+
 </mapper>

@@ -73,11 +73,4 @@ public interface ${table.className}Mapper{
     Integer update(Map<String,Object> param);
 
 
-    /**
-     * 删除
-     * @param param 参数
-     * @return
-    */
-    Integer delete(Map<String,Object> param);
-
 }
