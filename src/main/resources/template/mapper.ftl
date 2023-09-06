@@ -17,9 +17,16 @@
     <sql id="Base_Column_List_if">
         <#list table.cloumns as cloumn>
             <#if cloumn_has_next>
-                <if test="${cloumn.fieldName} != null">
-                    and `${cloumn.cloumnName}` = ${r"#{"}${cloumn.fieldName}}
-                </if>
+                <#if  cloumn.cloumnType=='VARCHAR'>
+                    <if test="${cloumn.fieldName} != null and ${cloumn.fieldName} != ''">
+                        and `${cloumn.cloumnName}` = ${r"#{"}${cloumn.fieldName}}
+                    </if>
+                </#if>
+                <#if  cloumn.cloumnType!='VARCHAR'>
+                    <if test="${cloumn.fieldName} != null">
+                        and `${cloumn.cloumnName}` = ${r"#{"}${cloumn.fieldName}}
+                    </if>
+                </#if>
             </#if>
         </#list>
     </sql>
@@ -84,9 +91,17 @@
                             `${cloumn.cloumnName}`,
                         </#if>
                         <#if  cloumn.cloumnName!='update_time' && cloumn.cloumnName!='create_time'>
-                            <if test="${cloumn.fieldName} != null and ${cloumn.fieldName} != ''">
-                                `${cloumn.cloumnName}`,
-                            </if>
+
+                              <#if  cloumn.cloumnType=='VARCHAR'>
+                                  <if test="${cloumn.fieldName} != null and ${cloumn.fieldName} != ''">
+                                      `${cloumn.cloumnName}`,
+                                  </if>
+                            </#if>
+                            <#if  cloumn.cloumnType!='VARCHAR'>
+                                <if test="${cloumn.fieldName} != null">
+                                    `${cloumn.cloumnName}`,
+                                </if>
+                            </#if>
                         </#if>
                     </#if>
                 <#else>
@@ -95,9 +110,16 @@
                             `${cloumn.cloumnName}`
                         </#if>
                         <#if  cloumn.cloumnName!='update_time' && cloumn.cloumnName!='create_time'>
-                            <if test="${cloumn.fieldName} != null and ${cloumn.fieldName} != ''">
-                                `${cloumn.cloumnName}`
-                            </if>
+                            <#if  cloumn.cloumnType=='VARCHAR'>
+                                <if test="${cloumn.fieldName} != null and ${cloumn.fieldName} != ''">
+                                    `${cloumn.cloumnName}`
+                                </if>
+                            </#if>
+                            <#if  cloumn.cloumnType!='VARCHAR'>
+                                <if test="${cloumn.fieldName} != null">
+                                    `${cloumn.cloumnName}`
+                                </if>
+                            </#if>
                         </#if>
                     </#if>
                 </#if>
@@ -113,9 +135,16 @@
                             now(),
                         </#if>
                         <#if  cloumn.cloumnName!='update_time' && cloumn.cloumnName!='create_time'>
-                            <if test="${cloumn.fieldName} != null and ${cloumn.fieldName} != ''">
-                                ${r"#{"}${cloumn.fieldName}},
-                            </if>
+                            <#if  cloumn.cloumnType=='VARCHAR'>
+                                <if test="${cloumn.fieldName} != null and ${cloumn.fieldName} != ''">
+                                    ${r"#{"}${cloumn.fieldName}},
+                                </if>
+                            </#if>
+                            <#if  cloumn.cloumnType!='VARCHAR'>
+                                <if test="${cloumn.fieldName} != null">
+                                    ${r"#{"}${cloumn.fieldName}},
+                                </if>
+                            </#if>
                         </#if>
                     </#if>
                 <#else>
@@ -124,9 +153,16 @@
                             now()
                         </#if>
                         <#if  cloumn.cloumnName!='update_time' && cloumn.cloumnName!='create_time'>
-                            <if test="${cloumn.fieldName} != null and ${cloumn.fieldName} != ''">
-                                ${r"#{"}${cloumn.fieldName}}
-                            </if>
+                            <#if  cloumn.cloumnType=='VARCHAR'>
+                                <if test="${cloumn.fieldName} != null and ${cloumn.fieldName} != ''">
+                                    ${r"#{"}${cloumn.fieldName}}
+                                </if>
+                            </#if>
+                            <#if  cloumn.cloumnType!='VARCHAR'>
+                                <if test="${cloumn.fieldName} != null">
+                                    ${r"#{"}${cloumn.fieldName}}
+                                </if>
+                            </#if>
                         </#if>
                     </#if>
                 </#if>
@@ -192,18 +228,32 @@
                         `${cloumn.cloumnName}`,
                     </#if>
                     <#if  cloumn.cloumnName!='update_time' && cloumn.cloumnName!='create_time'>
-                        <if test="${cloumn.fieldName} != null and ${cloumn.fieldName} != ''">
-                            `${cloumn.cloumnName}`,
-                        </if>
+                        <#if  cloumn.cloumnType=='VARCHAR'>
+                            <if test="${cloumn.fieldName} != null and ${cloumn.fieldName} != ''">
+                                `${cloumn.cloumnName}`,
+                            </if>
+                        </#if>
+                        <#if  cloumn.cloumnType!='VARCHAR'>
+                            <if test="${cloumn.fieldName} != null">
+                                `${cloumn.cloumnName}`,
+                            </if>
+                        </#if>
                     </#if>
                 <#else>
                     <#if  cloumn.cloumnName=='update_time' || cloumn.cloumnName=='create_time'>
                         `${cloumn.cloumnName}`
                     </#if>
                     <#if  cloumn.cloumnName!='update_time' && cloumn.cloumnName!='create_time'>
-                        <if test="${cloumn.fieldName} != null and ${cloumn.fieldName} != ''">
-                            `${cloumn.cloumnName}`
-                        </if>
+                        <#if  cloumn.cloumnType=='VARCHAR'>
+                            <if test="${cloumn.fieldName} != null and ${cloumn.fieldName} != ''">
+                                `${cloumn.cloumnName}`
+                            </if>
+                        </#if>
+                        <#if  cloumn.cloumnType!='VARCHAR'>
+                            <if test="${cloumn.fieldName} != null">
+                                `${cloumn.cloumnName}`
+                            </if>
+                        </#if>
                     </#if>
                 </#if>
             </#list>
@@ -217,18 +267,32 @@
                         now(),
                     </#if>
                     <#if  cloumn.cloumnName!='update_time' && cloumn.cloumnName!='create_time'>
-                        <if test="${cloumn.fieldName} != null and ${cloumn.fieldName} != ''">
-                            ${r"#{"}${cloumn.fieldName}},
-                        </if>
+                        <#if  cloumn.cloumnType=='VARCHAR'>
+                            <if test="${cloumn.fieldName} != null and ${cloumn.fieldName} != ''">
+                                ${r"#{"}${cloumn.fieldName}},
+                            </if>
+                        </#if>
+                        <#if  cloumn.cloumnType!='VARCHAR'>
+                            <if test="${cloumn.fieldName} != null">
+                                ${r"#{"}${cloumn.fieldName}},
+                            </if>
+                        </#if>
                     </#if>
                 <#else>
                     <#if  cloumn.cloumnName=='update_time' || cloumn.cloumnName=='create_time'>
                         now()
                     </#if>
                     <#if  cloumn.cloumnName!='update_time' && cloumn.cloumnName!='create_time'>
-                        <if test="${cloumn.fieldName} != null and ${cloumn.fieldName} != ''">
-                            ${r"#{"}${cloumn.fieldName}}
-                        </if>
+                        <#if  cloumn.cloumnType=='VARCHAR'>
+                            <if test="${cloumn.fieldName} != null and ${cloumn.fieldName} != ''">
+                                ${r"#{"}${cloumn.fieldName}}
+                            </if>
+                        </#if>
+                        <#if  cloumn.cloumnType!='VARCHAR'>
+                            <if test="${cloumn.fieldName} != null">
+                                ${r"#{"}${cloumn.fieldName}}
+                            </if>
+                        </#if>
                     </#if>
                 </#if>
             </#list>
@@ -242,18 +306,32 @@
                         ${cloumn.cloumnName}=now(),
                     </#if>
                     <#if  cloumn.cloumnName!='update_time'>
-                        <if test="${cloumn.fieldName} != null and ${cloumn.fieldName} != ''">
-                            `${cloumn.cloumnName}` = ${r"#{"}${cloumn.fieldName}},
-                        </if>
+                        <#if  cloumn.cloumnType=='VARCHAR'>
+                            <if test="${cloumn.fieldName} != null and ${cloumn.fieldName} != ''">
+                                `${cloumn.cloumnName}` = ${r"#{"}${cloumn.fieldName}},
+                            </if>
+                        </#if>
+                        <#if  cloumn.cloumnType!='VARCHAR'>
+                            <if test="${cloumn.fieldName} != null">
+                                `${cloumn.cloumnName}` = ${r"#{"}${cloumn.fieldName}},
+                            </if>
+                        </#if>
                     </#if>
                 <#else>
                     <#if  cloumn.cloumnName=='update_time'>
                         ${cloumn.cloumnName}=now()
                     </#if>
                     <#if  cloumn.cloumnName!='update_time'>
-                        <if test="${cloumn.fieldName} != null and ${cloumn.fieldName} != ''">
-                            `${cloumn.cloumnName}` = ${r"#{"}${cloumn.fieldName}}
-                        </if>
+                        <#if  cloumn.cloumnType=='VARCHAR'>
+                            <if test="${cloumn.fieldName} != null and ${cloumn.fieldName} != ''">
+                                `${cloumn.cloumnName}` = ${r"#{"}${cloumn.fieldName}}
+                            </if>
+                        </#if>
+                        <#if  cloumn.cloumnType!='VARCHAR'>
+                            <if test="${cloumn.fieldName} != null">
+                                `${cloumn.cloumnName}` = ${r"#{"}${cloumn.fieldName}}
+                            </if>
+                        </#if>
                     </#if>
                 </#if>
             </#list>
@@ -271,9 +349,16 @@
                             `${cloumn.cloumnName}` = now(),
                         </#if>
                         <#if  cloumn.cloumnName!='update_time'>
-                            <if test="${cloumn.fieldName} != null and ${cloumn.fieldName} != ''">
-                                `${cloumn.cloumnName}` = ${r"#{"}${cloumn.fieldName}},
-                            </if>
+                            <#if  cloumn.cloumnType=='VARCHAR'>
+                                <if test="${cloumn.fieldName} != null and ${cloumn.fieldName} != ''">
+                                    `${cloumn.cloumnName}` = ${r"#{"}${cloumn.fieldName}},
+                                </if>
+                            </#if>
+                            <#if  cloumn.cloumnType!='VARCHAR'>
+                                <if test="${cloumn.fieldName} != null">
+                                    `${cloumn.cloumnName}` = ${r"#{"}${cloumn.fieldName}},
+                                </if>
+                            </#if>
                         </#if>
                     </#if>
                 <#else>
@@ -282,9 +367,16 @@
                             `${cloumn.cloumnName}` = now()
                         </#if>
                         <#if  cloumn.cloumnName!='update_time'>
-                            <if test="${cloumn.fieldName} != null">
-                                `${cloumn.cloumnName}` = ${r"#{"}${cloumn.fieldName}}
-                            </if>
+                            <#if  cloumn.cloumnType=='VARCHAR'>
+                                <if test="${cloumn.fieldName} != null and ${cloumn.fieldName} != ''">
+                                    `${cloumn.cloumnName}` = ${r"#{"}${cloumn.fieldName}}
+                                </if>
+                            </#if>
+                            <#if  cloumn.cloumnType!='VARCHAR'>
+                                <if test="${cloumn.fieldName} != null">
+                                    `${cloumn.cloumnName}` = ${r"#{"}${cloumn.fieldName}}
+                                </if>
+                            </#if>
                         </#if>
                     </#if>
                 </#if>
