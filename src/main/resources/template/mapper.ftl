@@ -27,7 +27,7 @@
     <!-- 主键查询 -->
     <select id="selectByPrimaryKey" resultType="${pojo}.${table.className}">
         select
-        <include refid="Base_Column_List"/>
+        <include refid = "Base_Column_List"/>
         from `${table.tableName}`
         <#list table.cloumns as cloumn>
             <#if cloumn_index==0>
@@ -41,10 +41,10 @@
     <select id="select" resultType="${pojo}.${table.className}"
             parameterType="java.util.Map">
         select
-        <include refid="Base_Column_List"/>
+        <include refid = "Base_Column_List"/>
         from `${table.tableName}`
-        <trim prefix="where" prefixOverrides="and | or">
-            <include refid="Base_Column_List_if"/>
+        <trim prefix = "where" prefixOverrides = "and | or">
+            <include refid = "Base_Column_List_if"/>
 <#--                        <if test="startTime != null">-->
 <#--                            <!--创建时间大于开始时间，创建时间小于结束时间 &ndash;&gt;-->
 <#--                            and create_time &gt;= #{startTime} and create_time &lt;= #{endTime}-->
@@ -54,29 +54,29 @@
 
 
     <!-- 流式查询：根据条件查询；可以设置 fetchSize 属性设置一次流查询多少条数据，直至取完数据-->
-    <select id="flowSelect" resultType="${pojo}.${table.className}"
-            parameterType="java.util.Map" fetchSize="200">
+    <select id="flowSelect" resultType = "${pojo}.${table.className}"
+            parameterType = "java.util.Map" fetchSize = "200">
         select
-        <include refid="Base_Column_List"/>
+        <include refid = "Base_Column_List"/>
         from `${table.tableName}`
-        <trim prefix="where" prefixOverrides="and | or">
-            <include refid="Base_Column_List_if"/>
+        <trim prefix = "where" prefixOverrides = "and | or">
+            <include refid = "Base_Column_List_if"/>
         </trim>
     </select>
 
 
     <!--  添加 -->
-    <insert id="save" parameterType="${pojo}.${table.className}"
+    <insert id="save" parameterType = "${pojo}.${table.className}"
             <#if table.far == "mysql">
-        useGeneratedKeys="true" keyProperty="id"
+        useGeneratedKeys = "true" keyProperty = "id"
             </#if>>
         <#if table.far == "oracle">
-            <selectKey keyProperty="id" order="BEFORE" resultType="int">
+            <selectKey keyProperty = "id" order = "BEFORE" resultType = "int">
                 select seq_${table.tableName}.nextval as sysId from DUAL
             </selectKey>
         </#if>
         insert into `${table.tableName}`(
-        <trim suffixOverrides=",">
+        <trim suffixOverrides = ",">
             <#list table.cloumns as cloumn>
                 <#if cloumn_has_next>
                     <#if  cloumn.cloumnName!='id'>
@@ -105,7 +105,7 @@
         </trim>
         )
         values(
-        <trim suffixOverrides=",">
+        <trim suffixOverrides = ",">
             <#list table.cloumns as cloumn>
                 <#if cloumn_has_next>
                     <#if  cloumn.cloumnName!='id'>
@@ -136,7 +136,7 @@
     </insert>
 
     <!--  批量添加 -->
-    <insert id="batchSave" parameterType="list" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
+    <insert id="batchSave" parameterType = "list" keyColumn = "id" keyProperty = "id" useGeneratedKeys = "true">
         insert into `${table.tableName}`(
         <#list table.cloumns as cloumn>
         <#if cloumn_has_next>
@@ -178,9 +178,9 @@
     </insert>
 
     <!--  添加或者修改 -->
-    <insert id="saveOrUpdate" parameterType="${pojo}.${table.className}">
+    <insert id="saveOrUpdate" parameterType = "${pojo}.${table.className}">
         <#if table.far == "oracle">
-            <selectKey keyProperty="id" order="BEFORE" resultType="int">
+            <selectKey keyProperty = "id" order = "BEFORE" resultType = "int">
                 select seq_${table.tableName}.nextval as sysId from DUAL
             </selectKey>
         </#if>
@@ -263,7 +263,7 @@
     <!--  修改 -->
     <update id="update" parameterType="java.util.Map">
         update `${table.tableName}`
-        <trim prefix="set" suffixOverrides=",">
+        <trim prefix = "set" suffixOverrides = ",">
             <#list table.cloumns as cloumn>
                 <#if cloumn_has_next>
                     <#if  cloumn.cloumnName!='id'>
@@ -282,7 +282,7 @@
                             `${cloumn.cloumnName}` = now()
                         </#if>
                         <#if  cloumn.cloumnName!='update_time'>
-                            <if test="${cloumn.fieldName} != null and ${cloumn.fieldName} != ''">
+                            <if test="${cloumn.fieldName} != null">
                                 `${cloumn.cloumnName}` = ${r"#{"}${cloumn.fieldName}}
                             </if>
                         </#if>
@@ -290,7 +290,7 @@
                 </#if>
             </#list>
         </trim>
-        <trim prefix="where" prefixOverrides="and | or">
+        <trim prefix="where" prefixOverrides = "and | or">
             <#list table.cloumns as cloumn>
                 <#if cloumn_has_next>
                     <if test="${cloumn.fieldName}If != null">
