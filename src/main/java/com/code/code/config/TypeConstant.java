@@ -14,6 +14,7 @@ public class TypeConstant {
         typeMap.put("BOOLEAN", "boolean");
         typeMap.put("BYTE", "byte[]");
         typeMap.put("BIGINT", "Long");
+        typeMap.put("bigint", "Long");
         typeMap.put("INT", "Integer");
         typeMap.put("FLOAT", "float");
         typeMap.put("VARCHAR", "String");
@@ -37,9 +38,9 @@ public class TypeConstant {
 
         typeMap.put("LONGBLOB", "byte[]");
         typeMap.put("MEDIUMTEXT", "String");
-        typeMap.put("BIGINT UNSIGNED", "Integer");
+        typeMap.put("BIGINT UNSIGNED", "Long");
         typeMap.put("INT UNSIGNED", "Integer");
-        typeMap.put("tinyint", "byte");
+        typeMap.put("tinyint", "Integer");
         typeMap.put("TINYINT UNSIGNED", "Integer");
         typeMap.put("MEDIUMBLOB", "String");
         typeMap.put("json", "String");
