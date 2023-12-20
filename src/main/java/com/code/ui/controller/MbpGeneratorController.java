@@ -33,17 +33,11 @@ public class MbpGeneratorController {
         List<Table> tableList = init.tableList;
 
         List<Table> newTableList = new ArrayList<>();
-        for (Table table : tableList) {
-            Table newTable = JSON.parseObject(JSON.toJSONString(table), Table.class);
-            newTableList.add(newTable);
-        }
         List<String> tables = dto.getTables();
-        Iterator<Table> iterator = newTableList.iterator();
-        while (iterator.hasNext()) {
-            Table next = iterator.next();
-            if (!tables.contains(next.getTableName())) {
-                iterator.remove();
-                continue;
+        for (Table table : tableList) {
+            if(tables.contains(table.getTableName())){
+                Table newTable = JSON.parseObject(JSON.toJSONString(table), Table.class);
+                newTableList.add(newTable);
             }
         }
 

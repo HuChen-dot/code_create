@@ -8,9 +8,7 @@ import com.code.util.StringUtils;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 public class TableHandler {
 
@@ -40,8 +38,12 @@ public class TableHandler {
         for (Table table : tables) {
             table.setFar(fac);
 
+            Set<String> item = new HashSet<>();
             ResultSet rs = dbmd.getColumns(null, getSchema(connection), table.getTableName(), "%");
             while (rs.next()) {
+                if(!item.add(rs.getString("COLUMN_NAME").toLowerCase())){
+                    continue;
+                }
                 Cloumn cloumn = new Cloumn();
                 // 设置列属性
                 cloumn.setCloumnName(rs.getString("COLUMN_NAME").toLowerCase());
