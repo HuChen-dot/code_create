@@ -29,7 +29,7 @@ public class TableController {
         String sql = "show table status where 1=1";
         List<Table> tableList = JdbcUtil.queryList(sql, Table.class);
         if (tableList == null) {
-            return ResultGenerator.genSuccessResult(new ArrayList<>());
+            return Result.genSuccessResult(new ArrayList<>());
         }
         List<TableInfo> tables = new ArrayList<>();
 
@@ -39,7 +39,7 @@ public class TableController {
             tableInfo.setComment(table.getComment());
             tables.add(tableInfo);
         }
-        return ResultGenerator.genSuccessResult(tables);
+        return Result.genSuccessResult(tables);
     }
 
 
@@ -76,7 +76,7 @@ public class TableController {
             mvcHandler.executeClazzMapper(dto.getGenSetting(), table);
         }
 
-        return ResultGenerator.genSuccessResult();
+        return Result.genSuccessResult();
     }
 
 }

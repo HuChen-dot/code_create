@@ -23,10 +23,10 @@ public class Result {
      */
     private Object data;
 
-    public Result setCode(ResultCode resultCode) {
-        this.code = resultCode.code;
-        return this;
-    }
+//    public Result setCode(ResultCode resultCode) {
+//        this.code = resultCode.code;
+//        return this;
+//    }
 
     public int getCode() {
         return code;
@@ -53,6 +53,27 @@ public class Result {
     public Result setData(Object data) {
         this.data = data;
         return this;
+    }
+
+
+
+    public static Result genSuccessResult() {
+        return new Result()
+                .setCode(200)
+                .setMessage("SUCCESS");
+    }
+
+    public static Result genSuccessResult(Object data) {
+        return new Result()
+                .setCode(200)
+                .setMessage("SUCCESS")
+                .setData(data);
+    }
+
+    public static Result genFailResult(String message) {
+        return new Result()
+                .setCode(400)
+                .setMessage(message);
     }
 
     @Override

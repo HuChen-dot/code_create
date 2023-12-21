@@ -1,7 +1,6 @@
 package com.code.controller;
 
 import com.code.pojo.Result;
-import com.code.pojo.ResultGenerator;
 import com.code.pojo.UserConfig;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -39,14 +38,14 @@ public class IndexController {
     public Result getRootPath() throws IOException {
         File dir = new File("");
         String projectDir2 = dir.getCanonicalPath();
-        return ResultGenerator.genSuccessResult(projectDir2);
+        return Result.genSuccessResult(projectDir2);
     }
 
 
     @GetMapping("/api/output-file-info/user-config")
     @ResponseBody
     public Result getUserConfig() {
-        return ResultGenerator.genSuccessResult(new UserConfig());
+        return Result.genSuccessResult(new UserConfig());
     }
 
     /**
@@ -57,6 +56,6 @@ public class IndexController {
     @GetMapping("/api/output-file-info/check-if-new-project")
     @ResponseBody
     public Result checkIfNewProject() {
-        return ResultGenerator.genSuccessResult(false);
+        return Result.genSuccessResult(false);
     }
 }
