@@ -17,12 +17,8 @@ import java.util.List;
 @RestController
 public class TableController {
 
-
-
     @Autowired
     private TableHandler tableHandler;
-
-
 
     /**
      * 获取表列表信息
@@ -82,9 +78,5 @@ public class TableController {
 
         return ResultGenerator.genSuccessResult();
     }
-
-
-
-
 
 }
