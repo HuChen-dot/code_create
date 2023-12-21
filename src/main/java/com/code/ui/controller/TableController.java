@@ -1,11 +1,10 @@
 package com.code.ui.controller;
 
 import com.code.code.bean.Table;
-import com.code.ui.config.Init;
+import com.code.code.handler.JdbcUtil;
 import com.code.ui.pojo.Result;
 import com.code.ui.pojo.ResultGenerator;
 import com.code.ui.pojo.TableInfo;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,13 +16,12 @@ import java.util.List;
 @RequestMapping("/api/db")
 public class TableController {
 
-    @Autowired
-    private Init init;
 
 
     @GetMapping("/tables")
     public Result getAllTables() {
-        List<Table> tableList = init.tableList;
+        String sql = "show table status where 1=1";
+        List<Table> tableList = JdbcUtil.queryList(sql, Table.class);
         if (tableList == null) {
             return ResultGenerator.genSuccessResult(new ArrayList<>());
         }

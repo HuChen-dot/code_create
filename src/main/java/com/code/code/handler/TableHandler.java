@@ -4,26 +4,33 @@ import com.code.code.bean.Cloumn;
 import com.code.code.bean.Table;
 import com.code.util.PropertiesUtils;
 import com.code.util.StringUtils;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
 import java.util.*;
 
+@Component
+@Slf4j
 public class TableHandler {
-
-    private List<String> tableExceptList = new ArrayList<String>();
 
     private static String DBDRIVER = PropertiesUtils.get("application.properties", "driver");
 
-    public void addExceptTable(String tableName) {
-        tableExceptList.add(tableName);
-    }
-
-    private List<Table> queryDataTables() throws Exception {
+    private List<Table> queryDataTables(List<String> tableNames) throws Exception {
         String sql = "show table status where 1=1";
 
         List<Table> tables = JdbcUtil.queryList(sql, Table.class);
+        if(!CollectionUtils.isEmpty(tableNames)){
+            Iterator<Table> iterator = tables.iterator();
+            while (iterator.hasNext()){
+                if (!tableNames.contains(iterator.next().getTableName())) {
+                    iterator.remove();
+                }
+            }
+        }
 
         String fac = "";
         if (StringUtils.isorace(DBDRIVER, "oracle")) {
@@ -60,25 +67,12 @@ public class TableHandler {
         return tables;
     }
 
-    public List<Table> getTables() {
+    public List<Table> getTables(List<String> tableNames) {
         List<Table> dataTableList = null;
         try {
-            dataTableList = queryDataTables();
+            dataTableList = queryDataTables(tableNames);
         } catch (Exception e) {
-            e.printStackTrace();
-        }
-        if (null != dataTableList && dataTableList.size() != 0) {
-            if (null != tableExceptList && tableExceptList.size() == 0) {
-                for (String tableName : tableExceptList) {
-                    Iterator<Table> it = dataTableList.iterator();
-                    while (it.hasNext()) {
-                        Table x = it.next();
-                        if (x.getTableName().equals(tableName)) {
-                            it.remove();
-                        }
-                    }
-                }
-            }
+           log.error("获取表信息失败：",e);
         }
         return dataTableList;
     }
