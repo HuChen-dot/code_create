@@ -18,11 +18,11 @@
         <#list table.cloumns as cloumn>
             <#if cloumn_has_next>
                 <#if  cloumn.cloumnName=='create_time'>
-                <#-- <!--创建时间大于开始时间，创建时间小于结束时间 &ndash;&gt;-->
+                        <!--创建时间大于开始时间，创建时间小于结束时间 &gt;-->
                         <if test="startTime != null">
                             and  create_time &gt;= ${r"#{"}startTime}
                         </if>
-                <#-- <!--创建时间大于开始时间，创建时间小于结束时间 &ndash;&gt;-->
+                        <!--创建时间大于开始时间，创建时间小于结束时间 &gt;-->
                         <if test="endTime != null">
                             and  create_time &lt;= ${r"#{"}endTime}
                         </if>
@@ -395,11 +395,11 @@
                 <#if cloumn_has_next>
 
                     <#if  cloumn.cloumnName=='create_time'>
-                    <#-- <!--创建时间大于开始时间，创建时间小于结束时间 &ndash;&gt;-->
+                            <!--创建时间大于开始时间，创建时间小于结束时间 &gt;-->
                             <if test="startTime != null">
                                 and  create_time &gt;= ${r"#{"}startTime}
                             </if>
-                    <#-- <!--创建时间大于开始时间，创建时间小于结束时间 &ndash;&gt;-->
+                            <!--创建时间大于开始时间，创建时间小于结束时间 &gt;-->
                             <if test="endTime != null">
                                 and  create_time &lt;= ${r"#{"}endTime}
                             </if>
