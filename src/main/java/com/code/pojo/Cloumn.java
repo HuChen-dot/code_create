@@ -1,7 +1,7 @@
 package com.code.pojo;
 
 
-import com.code.config.TypeConstant;
+import com.code.common.Constant;
 import com.code.util.StringUtils;
 
 public class Cloumn {
@@ -39,7 +39,7 @@ public class Cloumn {
 	}
 
 	public String getJavaType() {
-		return TypeConstant.getJavaType(this.cloumnType);
+		return Constant.getJavaType(this.cloumnType);
 	}
 
 	public String getUpperCasecloumnName() {
