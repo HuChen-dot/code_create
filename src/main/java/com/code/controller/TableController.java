@@ -42,7 +42,8 @@ public class TableController {
         }
 
         Date date = new Date();
-        String time = date2String(date);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String time = sdf.format(date);
 
         for (Table table : newTableList) {
             table.setAuthor(dto.getGenSetting().getAuthor());
@@ -57,13 +58,6 @@ public class TableController {
         return ResultGenerator.genSuccessResult();
     }
 
-
-
-    public static String date2String(Date date) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String s = sdf.format(date);
-        return s;
-    }
 
 
     /**
