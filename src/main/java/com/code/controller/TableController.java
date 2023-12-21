@@ -22,6 +22,31 @@ public class TableController {
     @Autowired
     private TableHandler tableHandler;
 
+
+
+    /**
+     * 获取表列表信息
+     * @return
+     */
+    @GetMapping("/api/db/tables")
+    public Result getAllTables() {
+        String sql = "show table status where 1=1";
+        List<Table> tableList = JdbcUtil.queryList(sql, Table.class);
+        if (tableList == null) {
+            return ResultGenerator.genSuccessResult(new ArrayList<>());
+        }
+        List<TableInfo> tables = new ArrayList<>();
+
+        for (Table table : tableList) {
+            TableInfo tableInfo = new TableInfo();
+            tableInfo.setName(table.getTableName());
+            tableInfo.setComment(table.getComment());
+            tables.add(tableInfo);
+        }
+        return ResultGenerator.genSuccessResult(tables);
+    }
+
+
     /**
      * 生成代码
      * @param dto
@@ -60,27 +85,6 @@ public class TableController {
 
 
 
-    /**
-     * 获取表列表信息
-     * @return
-     */
-    @GetMapping("/api/db/tables")
-    public Result getAllTables() {
-        String sql = "show table status where 1=1";
-        List<Table> tableList = JdbcUtil.queryList(sql, Table.class);
-        if (tableList == null) {
-            return ResultGenerator.genSuccessResult(new ArrayList<>());
-        }
-        List<TableInfo> tables = new ArrayList<>();
-
-        for (Table table : tableList) {
-            TableInfo tableInfo = new TableInfo();
-            tableInfo.setName(table.getTableName());
-            tableInfo.setComment(table.getComment());
-            tables.add(tableInfo);
-        }
-        return ResultGenerator.genSuccessResult(tables);
-    }
 
 
 }
