@@ -17,15 +17,27 @@
     <sql id="Base_Column_List_if">
         <#list table.cloumns as cloumn>
             <#if cloumn_has_next>
-                <#if  cloumn.cloumnType=='VARCHAR'>
-                    <if test="${cloumn.fieldName} != null and ${cloumn.fieldName} != ''">
-                        and `${cloumn.cloumnName}` = ${r"#{"}${cloumn.fieldName}}
-                    </if>
+                <#if  cloumn.cloumnName=='create_time'>
+                <#-- <!--创建时间大于开始时间，创建时间小于结束时间 &ndash;&gt;-->
+                        <if test="startTime != null">
+                            and  create_time &gt;= ${r"#{"}startTime}
+                        </if>
+                <#-- <!--创建时间大于开始时间，创建时间小于结束时间 &ndash;&gt;-->
+                        <if test="endTime != null">
+                            and  create_time &lt;= ${r"#{"}endTime}
+                        </if>
                 </#if>
-                <#if  cloumn.cloumnType!='VARCHAR'>
-                    <if test="${cloumn.fieldName} != null">
-                        and `${cloumn.cloumnName}` = ${r"#{"}${cloumn.fieldName}}
-                    </if>
+                <#if  cloumn.cloumnName!='create_time'>
+                    <#if  cloumn.cloumnType=='VARCHAR'>
+                        <if test="${cloumn.fieldName} != null and ${cloumn.fieldName} != ''">
+                            and `${cloumn.cloumnName}` = ${r"#{"}${cloumn.fieldName}}
+                        </if>
+                    </#if>
+                    <#if  cloumn.cloumnType!='VARCHAR'>
+                        <if test="${cloumn.fieldName} != null">
+                            and `${cloumn.cloumnName}` = ${r"#{"}${cloumn.fieldName}}
+                        </if>
+                    </#if>
                 </#if>
             </#if>
         </#list>
@@ -52,10 +64,6 @@
         from `${table.tableName}`
         <trim prefix = "where" prefixOverrides = "and | or">
             <include refid = "Base_Column_List_if"/>
-<#--                        <if test="startTime != null">-->
-<#--                            <!--创建时间大于开始时间，创建时间小于结束时间 &ndash;&gt;-->
-<#--                            and create_time &gt;= #{startTime} and create_time &lt;= #{endTime}-->
-<#--                        </if>-->
         </trim>
     </select>
 
@@ -385,9 +393,29 @@
         <trim prefix="where" prefixOverrides = "and | or">
             <#list table.cloumns as cloumn>
                 <#if cloumn_has_next>
-                    <if test="${cloumn.fieldName}If != null">
-                        and `${cloumn.cloumnName}` = ${r"#{"}${cloumn.fieldName}If}
-                    </if>
+
+                    <#if  cloumn.cloumnName=='create_time'>
+                    <#-- <!--创建时间大于开始时间，创建时间小于结束时间 &ndash;&gt;-->
+                            <if test="startTime != null">
+                                and  create_time &gt;= ${r"#{"}startTime}
+                            </if>
+                    <#-- <!--创建时间大于开始时间，创建时间小于结束时间 &ndash;&gt;-->
+                            <if test="endTime != null">
+                                and  create_time &lt;= ${r"#{"}endTime}
+                            </if>
+                    </#if>
+                    <#if  cloumn.cloumnName!='create_time'>
+                        <#if  cloumn.cloumnType=='VARCHAR'>
+                            <if test="${cloumn.fieldName}If != null and ${cloumn.fieldName}If != ''">
+                                and `${cloumn.cloumnName}` = ${r"#{"}${cloumn.fieldName}If}
+                            </if>
+                        </#if>
+                        <#if  cloumn.cloumnType!='VARCHAR'>
+                            <if test="${cloumn.fieldName}If != null">
+                                and `${cloumn.cloumnName}` = ${r"#{"}${cloumn.fieldName}If}
+                            </if>
+                        </#if>
+                    </#if>
                 </#if>
             </#list>
         </trim>
