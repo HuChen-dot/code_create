@@ -20,6 +20,28 @@ public class TableHandler {
 
     private static String DBDRIVER = PropertiesUtils.get("application.properties", "driver");
 
+
+
+    public List<Table> getTables(List<String> tableNames) {
+        List<Table> dataTableList = null;
+        try {
+            dataTableList = queryDataTables(tableNames);
+        } catch (Exception e) {
+           log.error("获取表信息失败：",e);
+        }
+        return dataTableList;
+    }
+
+    // 其他数据库不需要这个方法 oracle和db2需要
+    private static String getSchema(Connection conn) throws Exception {
+        String schema;
+        schema = conn.getMetaData().getUserName();
+        if ((schema == null) || (schema.length() == 0)) {
+            throw new Exception("ORACLE数据库模式不允许为空");
+        }
+        return schema.toUpperCase();
+    }
+
     private List<Table> queryDataTables(List<String> tableNames) throws Exception {
         String sql = "show table status where 1=1";
 
@@ -33,12 +55,11 @@ public class TableHandler {
             }
         }
 
-        String fac = "";
+        String fac = "mysql";
         if (StringUtils.isorace(DBDRIVER, "oracle")) {
             fac = "oracle";
-        } else {
-            fac = "mysql";
         }
+
         Connection connection = JdbcUtil.getConnection();
 
         DatabaseMetaData dbmd = connection.getMetaData();
@@ -66,25 +87,5 @@ public class TableHandler {
             }
         }
         return tables;
-    }
-
-    public List<Table> getTables(List<String> tableNames) {
-        List<Table> dataTableList = null;
-        try {
-            dataTableList = queryDataTables(tableNames);
-        } catch (Exception e) {
-           log.error("获取表信息失败：",e);
-        }
-        return dataTableList;
-    }
-
-    // 其他数据库不需要这个方法 oracle和db2需要
-    private static String getSchema(Connection conn) throws Exception {
-        String schema;
-        schema = conn.getMetaData().getUserName();
-        if ((schema == null) || (schema.length() == 0)) {
-            throw new Exception("ORACLE数据库模式不允许为空");
-        }
-        return schema.toUpperCase();
     }
 }
