@@ -70,7 +70,14 @@ public interface ${table.className}Mapper{
      * @param param
      * @return
     */
-    Integer update(Map<String,Object> param);
+    Integer updateByMap(Map<String,Object> param);
+
+    /**
+     * 修改
+     * @param ${lowerClassName}
+     * @return
+    */
+    Integer updateByEntity(${table.className} ${lowerClassName});
 
 
 }

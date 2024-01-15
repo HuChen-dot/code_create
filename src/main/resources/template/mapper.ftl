@@ -347,7 +347,7 @@
     </insert>
 
     <!--  修改 -->
-    <update id="update" parameterType="java.util.Map">
+    <update id="updateByMap" parameterType="java.util.Map">
         update `${table.tableName}`
         <trim prefix = "set" suffixOverrides = ",">
             <#list table.cloumns as cloumn>
@@ -393,7 +393,6 @@
         <trim prefix="where" prefixOverrides = "and | or">
             <#list table.cloumns as cloumn>
                 <#if cloumn_has_next>
-
                     <#if  cloumn.cloumnName=='create_time'>
                             <!--创建时间大于开始时间，创建时间小于结束时间 &gt;-->
                             <if test="startTime != null">
@@ -419,6 +418,59 @@
                 </#if>
             </#list>
         </trim>
+    </update>
+
+
+    <!--  修改 -->
+    <update id="updateByEntity" parameterType="${pojo}.${table.className}">
+        update `${table.tableName}`
+        <trim prefix = "set" suffixOverrides = ",">
+            <#list table.cloumns as cloumn>
+                <#if cloumn_has_next>
+                    <#if  cloumn.cloumnName!='id'>
+                        <#if  cloumn.cloumnName=='update_time'>
+                            `${cloumn.cloumnName}` = now(),
+                        </#if>
+                        <#if  cloumn.cloumnName!='update_time'>
+                            <#if  cloumn.cloumnType=='VARCHAR'>
+                                <if test="${cloumn.fieldName} != null and ${cloumn.fieldName} != ''">
+                                    `${cloumn.cloumnName}` = ${r"#{"}${cloumn.fieldName}},
+                                </if>
+                            </#if>
+                            <#if  cloumn.cloumnType!='VARCHAR'>
+                                <if test="${cloumn.fieldName} != null">
+                                    `${cloumn.cloumnName}` = ${r"#{"}${cloumn.fieldName}},
+                                </if>
+                            </#if>
+                        </#if>
+                    </#if>
+                <#else>
+                    <#if  cloumn.cloumnName!='id'>
+                        <#if  cloumn.cloumnName=='update_time'>
+                            `${cloumn.cloumnName}` = now()
+                        </#if>
+                        <#if  cloumn.cloumnName!='update_time'>
+                            <#if  cloumn.cloumnType=='VARCHAR'>
+                                <if test="${cloumn.fieldName} != null and ${cloumn.fieldName} != ''">
+                                    `${cloumn.cloumnName}` = ${r"#{"}${cloumn.fieldName}}
+                                </if>
+                            </#if>
+                            <#if  cloumn.cloumnType!='VARCHAR'>
+                                <if test="${cloumn.fieldName} != null">
+                                    `${cloumn.cloumnName}` = ${r"#{"}${cloumn.fieldName}}
+                                </if>
+                            </#if>
+                        </#if>
+                    </#if>
+                </#if>
+            </#list>
+        </trim>
+        <#list table.cloumns as cloumn>
+            <#if cloumn_index==0>
+                where ${cloumn.cloumnName} = ${r"#{"}${cloumn.fieldName}}
+                <#break>
+            </#if>
+        </#list>
     </update>
 
 
