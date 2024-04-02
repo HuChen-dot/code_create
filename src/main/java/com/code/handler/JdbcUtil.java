@@ -113,7 +113,7 @@ public class JdbcUtil {
      */
     public static <T> T queryOne(String sql, Class<T> clazz, Object... obj) {
         List<T> ts = queryList(sql, clazz, obj);
-        if (ts==null) {
+        if (ts == null) {
             return null;
         }
         if (ts.size() > 1) {
@@ -122,9 +122,9 @@ public class JdbcUtil {
         return ts.get(0);
     }
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
 
-        String sql ="show table status where 1=1";
+        String sql = "show table status where 1=1";
 
         List<Table> tables = JdbcUtil.queryList(sql, Table.class);
 //        List<Map> maps = JdbcUtil.queryList(sql, Map.class);
@@ -136,31 +136,31 @@ public class JdbcUtil {
     }
 
 
-    public static class  Table{
+    public static class Table {
 
         String Name;
 
         String Comment;
 
-        public void setName(String name){
+        public void setName(String name) {
             this.Name = name;
         }
 
-        public String getName(){
-           return this.Name;
+        public String getName() {
+            return this.Name;
         }
 
-        public void setComment(String Comment){
+        public void setComment(String Comment) {
             this.Comment = Comment;
         }
 
-        public String getComment(){
+        public String getComment() {
             return this.Comment;
         }
 
-        public String toString(){
+        public String toString() {
 
-            return this.Name+"-"+this.Comment;
+            return this.Name + "-" + this.Comment;
         }
     }
 
@@ -175,7 +175,7 @@ public class JdbcUtil {
      */
     public static <T> List<T> queryList(String sql, Class<T> clazz, Object... obj) {
         Connection con = getConnection();
-
+        sql = sql.toLowerCase();
         ResultSet resultSet = null;
         PreparedStatement ps = null;
         try {
@@ -233,15 +233,17 @@ public class JdbcUtil {
     private static <T> void setField(ResultSet resultSet, String column, Class<T> clazz, T t) throws Exception {
         //获取列值
         Object object = resultSet.getObject(column);
-        //去除下划线
-        column = removeUnderline(column);
-        if (clazz == Map.class) {
-            Map<String, Object> map = (Map<String, Object>) t;
-            map.put(column, object);
-        } else {
-            Field declaredField = clazz.getDeclaredField(column);
-            declaredField.setAccessible(true);
-            declaredField.set(t, object);
+        if (object != null) {
+            //去除下划线
+            column = removeUnderline(column);
+            if (clazz == Map.class) {
+                Map<String, Object> map = (Map<String, Object>) t;
+                map.put(column, object);
+            } else {
+                Field declaredField = clazz.getDeclaredField(column);
+                declaredField.setAccessible(true);
+                declaredField.set(t, object);
+            }
         }
     }
 
@@ -252,7 +254,7 @@ public class JdbcUtil {
      * @return
      */
     private static List<String> unSql(String sql) {
-        if(sql.indexOf("from")==-1){
+        if (sql.indexOf("from") == -1) {
             ArrayList<String> strings = new ArrayList<>();
             strings.add("Name");
             strings.add("Comment");

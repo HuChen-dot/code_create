@@ -20,6 +20,7 @@ public class TableHandler {
 
     private static String DBDRIVER = PropertiesUtils.get("application.properties", "driver");
 
+    private static String url = PropertiesUtils.get("application.properties", "url");
 
 
     public List<Table> getTables(List<String> tableNames) {
@@ -27,7 +28,7 @@ public class TableHandler {
         try {
             dataTableList = queryDataTables(tableNames);
         } catch (Exception e) {
-           log.error("获取表信息失败：",e);
+            log.error("获取表信息失败：", e);
         }
         return dataTableList;
     }
@@ -42,13 +43,13 @@ public class TableHandler {
         return schema.toUpperCase();
     }
 
-    private List<Table> queryDataTables(List<String> tableNames) throws Exception {
-        String sql = "show table status where 1=1";
 
+    private List<Table> queryDataTables(List<String> tableNames) throws Exception {
+        String sql = "show table status where 1=1;";
         List<Table> tables = JdbcUtil.queryList(sql, Table.class);
-        if(!CollectionUtils.isEmpty(tableNames)){
+        if (!CollectionUtils.isEmpty(tableNames)) {
             Iterator<Table> iterator = tables.iterator();
-            while (iterator.hasNext()){
+            while (iterator.hasNext()) {
                 if (!tableNames.contains(iterator.next().getTableName())) {
                     iterator.remove();
                 }
@@ -60,17 +61,42 @@ public class TableHandler {
             fac = "oracle";
         }
 
+        Set<String> item = new HashSet<>();
+        if ("mysql".equals(fac)) {
+            String databases = url.substring(0, url.indexOf("?")).substring(url.substring(0, url.indexOf("?")).lastIndexOf("/") + 1);
+            for (Table table : tables) {
+                table.setFar(fac);
+                String columnSql = "SELECT COLUMN_NAME,COLUMN_COMMENT,DATA_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = ? AND TABLE_NAME = ?";
+                List<Map> result = JdbcUtil.queryList(columnSql, Map.class,databases,table.getTableName());
+                for (Map map : result) {
+                    if (!item.add(String.valueOf(map.get("columnName")).toLowerCase())) {
+                        continue;
+                    }
+
+                    Cloumn cloumn = new Cloumn();
+                    // 设置列属性
+                    cloumn.setCloumnName(String.valueOf(map.get("columnName")).toLowerCase());
+                    // 获取注释；如果这里注释为空，模板页面获取不到就会报错，所以给个初始值" "；
+                    String far = "";
+                    if (map.get("columnComment") != null) {
+                        far =String.valueOf(map.get("columnComment"));
+                    }
+                    cloumn.setComment(far);
+                    cloumn.setCloumnType(String.valueOf(map.get("dataType")).toLowerCase());
+                    table.getCloumns().add(cloumn);
+                }
+            }
+            return tables;
+        }
+
         Connection connection = JdbcUtil.getConnection();
-
         DatabaseMetaData dbmd = connection.getMetaData();
-
         for (Table table : tables) {
             table.setFar(fac);
 
-            Set<String> item = new HashSet<>();
             ResultSet rs = dbmd.getColumns(null, getSchema(connection), table.getTableName(), "%");
             while (rs.next()) {
-                if(!item.add(rs.getString("COLUMN_NAME").toLowerCase())){
+                if (!item.add(rs.getString("COLUMN_NAME").toLowerCase())) {
                     continue;
                 }
                 Cloumn cloumn = new Cloumn();
@@ -82,7 +108,7 @@ public class TableHandler {
                     far = rs.getString("REMARKS");
                 }
                 cloumn.setComment(far);
-                cloumn.setCloumnType(rs.getString("TYPE_NAME"));
+                cloumn.setCloumnType(rs.getString("TYPE_NAME").toLowerCase());
                 table.getCloumns().add(cloumn);
             }
         }
