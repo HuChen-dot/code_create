@@ -18,6 +18,8 @@ public class Table implements Serializable {
 
     private String createTime;
 
+    private List<Cloumn> cloumns = new ArrayList();
+
     public String getFar() {
         return far;
     }
@@ -41,9 +43,6 @@ public class Table implements Serializable {
     public String getCreateTime() {
         return this.createTime;
     }
-
-
-    private List<Cloumn> cloumns = new ArrayList();
 
     public String getComment() {
         return Comment;

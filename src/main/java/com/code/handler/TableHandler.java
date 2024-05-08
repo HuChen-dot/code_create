@@ -61,13 +61,13 @@ public class TableHandler {
             fac = "oracle";
         }
 
-        Set<String> item = new HashSet<>();
         if ("mysql".equals(fac)) {
             String databases = url.substring(0, url.indexOf("?")).substring(url.substring(0, url.indexOf("?")).lastIndexOf("/") + 1);
             for (Table table : tables) {
                 table.setFar(fac);
                 String columnSql = "SELECT COLUMN_NAME,COLUMN_COMMENT,DATA_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = ? AND TABLE_NAME = ?";
                 List<Map> result = JdbcUtil.queryList(columnSql, Map.class,databases,table.getTableName());
+                Set<String> item = new HashSet<>();
                 for (Map map : result) {
                     if (!item.add(String.valueOf(map.get("columnName")).toLowerCase())) {
                         continue;
@@ -93,8 +93,8 @@ public class TableHandler {
         DatabaseMetaData dbmd = connection.getMetaData();
         for (Table table : tables) {
             table.setFar(fac);
-
             ResultSet rs = dbmd.getColumns(null, getSchema(connection), table.getTableName(), "%");
+            Set<String> item = new HashSet<>();
             while (rs.next()) {
                 if (!item.add(rs.getString("COLUMN_NAME").toLowerCase())) {
                     continue;

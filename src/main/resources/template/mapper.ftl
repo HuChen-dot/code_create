@@ -38,6 +38,20 @@
                         </if>
                     </#if>
                 </#if>
+                <#if  cloumn.cloumnName=='id'>
+                        <if test="ids != null and ids.size() > 0">
+                            and `${cloumn.cloumnName}` in (
+                            <foreach collection="ids" item="id" separator=",">
+                                ${r"#{"}${cloumn.fieldName}}
+                            </foreach>
+                        )
+                        </if>
+                </#if>
+                <#if  cloumn.cloumnName=='name'>
+                    <if test="nameLike != null and nameLike !=''">
+                        and `${cloumn.cloumnName}` like CONCAT(CONCAT('%', #{nameLike}), '%'))
+                    </if>
+            </#if>
         </#list>
     </sql>
 
@@ -416,7 +430,7 @@
 
 
     <!--  修改 -->
-    <update id="updateByEntity" parameterType="${pojo}.${table.className}">
+    <update id="updateById" parameterType="${pojo}.${table.className}">
         update `${table.tableName}`
         <trim prefix = "set" suffixOverrides = ",">
             <#list table.cloumns as cloumn>

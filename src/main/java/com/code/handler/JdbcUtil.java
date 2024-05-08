@@ -30,25 +30,12 @@ public class JdbcUtil {
      */
     private static List<Connection> connections = new ArrayList<>(connect);
 
-    static {
-        try {
-            Class.forName(driver);
-
-            for (int i = 0; i < connect; i++) {
-                Connection connection = DriverManager.getConnection(url, user,
-                        password);
-                connections.add(connection);
-            }
-        } catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-    }
-
     public static Connection getConnection() {
         try {
-            int i1 = Math.abs(random.nextInt()) % connect;
-            return connections.get(i1);
+            Class.forName(driver);
+            Connection connection = DriverManager.getConnection(url, user,
+                    password);
+            return connection;
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -71,14 +58,14 @@ public class JdbcUtil {
                         // TODO Auto-generated catch block
                         e.printStackTrace();
                     } finally {
-//                        if (con != null) {
-//                            try {
-//                                con.close();
-//                            } catch (SQLException e) {
-//                                // TODO Auto-generated catch block
-//                                e.printStackTrace();
-//                            }
-//                        }
+                        if (con != null) {
+                            try {
+                                con.close();
+                            } catch (SQLException e) {
+                                // TODO Auto-generated catch block
+                                e.printStackTrace();
+                            }
+                        }
                     }
                 }
             }

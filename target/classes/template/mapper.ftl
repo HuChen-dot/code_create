@@ -38,6 +38,15 @@
                         </if>
                     </#if>
                 </#if>
+                <#if  cloumn.cloumnName=='id'>
+                        <if test="ids != null and ids.size() > 0">
+                            and `${cloumn.cloumnName}` in (
+                            <foreach collection="ids" item="id" separator=",">
+                                ${r"#{"}${cloumn.fieldName}}
+                            </foreach>
+                        )
+                        </if>
+                </#if>
         </#list>
     </sql>
 
