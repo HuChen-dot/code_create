@@ -65,7 +65,7 @@ public class TableHandler {
             String databases = url.substring(0, url.indexOf("?")).substring(url.substring(0, url.indexOf("?")).lastIndexOf("/") + 1);
             for (Table table : tables) {
                 table.setFar(fac);
-                String columnSql = "SELECT COLUMN_NAME,COLUMN_COMMENT,DATA_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = ? AND TABLE_NAME = ?";
+                String columnSql = "SELECT COLUMN_NAME,COLUMN_COMMENT,DATA_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = ? AND TABLE_NAME = ? ORDER BY ORDINAL_POSITION ASC";
                 List<Map> result = JdbcUtil.queryList(columnSql, Map.class,databases,table.getTableName());
                 Set<String> item = new HashSet<>();
                 for (Map map : result) {

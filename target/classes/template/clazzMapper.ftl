@@ -77,7 +77,7 @@ public interface ${table.className}Mapper{
      * @param ${lowerClassName}
      * @return
     */
-    Integer updateByEntity(${table.className} ${lowerClassName});
+    Integer updateById(${table.className} ${lowerClassName});
 
 
 }

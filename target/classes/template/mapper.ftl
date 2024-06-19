@@ -47,6 +47,11 @@
                         )
                         </if>
                 </#if>
+                <#if  cloumn.cloumnName=='name'>
+                    <if test="nameLike != null and nameLike !=''">
+                        and `${cloumn.cloumnName}` like CONCAT(CONCAT('%', #{nameLike}), '%'))
+                    </if>
+            </#if>
         </#list>
     </sql>
 
@@ -425,7 +430,7 @@
 
 
     <!--  修改 -->
-    <update id="updateByEntity" parameterType="${pojo}.${table.className}">
+    <update id="updateById" parameterType="${pojo}.${table.className}">
         update `${table.tableName}`
         <trim prefix = "set" suffixOverrides = ",">
             <#list table.cloumns as cloumn>
