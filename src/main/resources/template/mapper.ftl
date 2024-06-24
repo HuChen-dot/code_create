@@ -423,7 +423,15 @@
                             </if>
                         </#if>
                     </#if>
-
+                <#if  cloumn.cloumnName=='id'>
+                    <if test="idIfs != null and idIfs.size() > 0">
+                        and `${cloumn.cloumnName}` in (
+                        <foreach collection="idIfs" item="id" separator=",">
+                            ${r"#{"}${cloumn.fieldName}}
+                        </foreach>
+                        )
+                    </if>
+                </#if>
             </#list>
         </trim>
     </update>
