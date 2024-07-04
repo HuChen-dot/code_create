@@ -31,9 +31,14 @@ public interface ${table.className}Mapper{
 
 
     /**
-     * 流式查询，可以设置 fetchSize 属性设置一次流查询多少条数据，直至取完数据
-     * 注意：使用流式查询，需要在service层将使用流式查询的方法上添加@Transactional注解，不然会报错
-     * 错误原因为 @Autowired注入的mapper查询一次就会将连接关闭，不会保持链接
+     * 流式查询
+     * 注意：
+     * 1：需要在jdbc的url上添加参数：useCursorFetch=true
+     * 2：因为取数据时需要保持连接的打开。不能使用@Autowired注入的mapper。需要使用sqlSessionFactory
+     *  在类里面@Autowired 注入：sqlSessionFactory ，然后在方法中：
+     *     SqlSession sqlSession = sqlSessionFactory.openSession();
+     *      //获取mapper
+     *      ApprenticeDAO apprenticeDAO=sqlSession.getMapper(ApprenticeDAO.class);
      * @param param
      * @return
     */

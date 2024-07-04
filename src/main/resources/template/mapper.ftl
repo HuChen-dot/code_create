@@ -49,7 +49,7 @@
                 </#if>
                 <#if  cloumn.cloumnName=='name'>
                     <if test="nameLike != null and nameLike !=''">
-                        and `${cloumn.cloumnName}` like CONCAT(CONCAT('%', #{nameLike}), '%'))
+                        and `${cloumn.cloumnName}` like CONCAT(CONCAT('%', ${r"#{"}${cloumn.fieldName}}), '%'))
                     </if>
             </#if>
         </#list>
@@ -80,9 +80,9 @@
     </select>
 
 
-    <!-- 流式查询：根据条件查询；可以设置 fetchSize 属性设置一次流查询多少条数据，直至取完数据-->
-    <select id="flowSelect" resultType = "${pojo}.${table.className}"
-            parameterType = "java.util.Map" fetchSize = "200">
+    <!-- 流式查询-->
+    <select id="flowSelect" resultSetType="FORWARD_ONLY" fetchSize="-2147483648" resultType = "${pojo}.${table.className}"
+            parameterType = "java.util.Map">
         select
         <include refid = "Base_Column_List"/>
         from `${table.tableName}`
@@ -104,7 +104,6 @@
         <trim suffixOverrides = ",">
             <#list table.cloumns as cloumn>
                 <#if cloumn_has_next>
-                    <#if  cloumn.cloumnName!='id'>
                         <#if  cloumn.cloumnName=='update_time' || cloumn.cloumnName=='create_time'>
                             `${cloumn.cloumnName}`,
                         </#if>
@@ -119,10 +118,8 @@
                                     `${cloumn.cloumnName}`,
                                 </if>
                             </#if>
-                        </#if>
                     </#if>
                 <#else>
-                    <#if  cloumn.cloumnName!='id'>
                         <#if  cloumn.cloumnName=='update_time' || cloumn.cloumnName=='create_time'>
                             `${cloumn.cloumnName}`
                         </#if>
@@ -138,7 +135,6 @@
                                 </if>
                             </#if>
                         </#if>
-                    </#if>
                 </#if>
             </#list>
         </trim>
@@ -147,7 +143,6 @@
         <trim suffixOverrides = ",">
             <#list table.cloumns as cloumn>
                 <#if cloumn_has_next>
-                    <#if  cloumn.cloumnName!='id'>
                         <#if  cloumn.cloumnName=='update_time' || cloumn.cloumnName=='create_time'>
                             now(),
                         </#if>
@@ -163,9 +158,7 @@
                                 </if>
                             </#if>
                         </#if>
-                    </#if>
                 <#else>
-                    <#if  cloumn.cloumnName!='id'>
                         <#if  cloumn.cloumnName=='update_time' || cloumn.cloumnName=='create_time'>
                             now()
                         </#if>
@@ -181,7 +174,6 @@
                                 </if>
                             </#if>
                         </#if>
-                    </#if>
                 </#if>
             </#list>
         </trim>
@@ -193,13 +185,9 @@
         insert into `${table.tableName}`(
         <#list table.cloumns as cloumn>
         <#if cloumn_has_next>
-            <#if  cloumn.cloumnName!='id'>
                 `${cloumn.cloumnName}`,
-            </#if>
         <#else>
-            <#if  cloumn.cloumnName!='id'>
                 `${cloumn.cloumnName}`
-            </#if>
         </#if>
         </#list>)
         values
@@ -207,23 +195,19 @@
             (
             <#list table.cloumns as cloumn>
                 <#if cloumn_has_next>
-                    <#if  cloumn.cloumnName!='id'>
                         <#if  cloumn.cloumnName=='update_time' || cloumn.cloumnName=='create_time'>
                             now(),
                         </#if>
                         <#if  cloumn.cloumnName!='update_time' && cloumn.cloumnName!='create_time'>
                             ${r"#{item."}${cloumn.fieldName}},
                         </#if>
-                    </#if>
                 <#else>
-                    <#if  cloumn.cloumnName!='id'>
                         <#if  cloumn.cloumnName=='update_time' || cloumn.cloumnName=='create_time'>
                             now()
                         </#if>
                         <#if  cloumn.cloumnName!='update_time' && cloumn.cloumnName!='create_time'>
                             ${r"#{item."}${cloumn.fieldName}}
                         </#if>
-                    </#if>
                 </#if>
             </#list>
             )
