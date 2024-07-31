@@ -71,11 +71,25 @@ public interface ${table.className}Mapper{
 
 
     /**
+     * 修改：判断不是空的才修改
+     * @param param
+     * @return
+    */
+    Integer updateNotNullByMap(Map<String,Object> param);
+
+    /**
      * 修改
      * @param param
      * @return
     */
     Integer updateByMap(Map<String,Object> param);
+
+    /**
+     * 修改：判断不是空的才修改
+     * @param ${lowerClassName}
+     * @return
+    */
+    Integer updateNotNullById(${table.className} ${lowerClassName});
 
     /**
      * 修改

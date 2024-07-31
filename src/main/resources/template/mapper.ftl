@@ -339,8 +339,8 @@
         </trim>
     </insert>
 
-    <!--  修改 -->
-    <update id="updateByMap" parameterType="java.util.Map">
+    <!--  修改：判断不是空的才修改 -->
+    <update id="updateNotNullByMap" parameterType="java.util.Map">
         update `${table.tableName}`
         <trim prefix = "set" suffixOverrides = ",">
             <#list table.cloumns as cloumn>
@@ -385,6 +385,69 @@
         </trim>
         <trim prefix="where" prefixOverrides = "and | or">
             <#list table.cloumns as cloumn>
+                <#if  cloumn.cloumnName=='create_time'>
+                    <!--创建时间大于开始时间，创建时间小于结束时间 &gt;-->
+                    <if test="startTime != null">
+                        and  create_time &gt;= ${r"#{"}startTime}
+                    </if>
+                    <!--创建时间大于开始时间，创建时间小于结束时间 &gt;-->
+                    <if test="endTime != null">
+                        and  create_time &lt;= ${r"#{"}endTime}
+                    </if>
+                </#if>
+                <#if  cloumn.cloumnName!='create_time'>
+                    <#if  cloumn.cloumnType=='varchar'>
+                        <if test="${cloumn.fieldName}If != null and ${cloumn.fieldName}If != ''">
+                            and `${cloumn.cloumnName}` = ${r"#{"}${cloumn.fieldName}If}
+                        </if>
+                    </#if>
+                    <#if  cloumn.cloumnType!='varchar'>
+                        <if test="${cloumn.fieldName}If != null">
+                            and `${cloumn.cloumnName}` = ${r"#{"}${cloumn.fieldName}If}
+                        </if>
+                    </#if>
+                </#if>
+                <#if  cloumn.cloumnName=='id'>
+                    <if test="idIfs != null and idIfs.size() > 0">
+                        and `${cloumn.cloumnName}` in (
+                        <foreach collection="idIfs" item="id" separator=",">
+                            ${r"#{"}${cloumn.fieldName}}
+                        </foreach>
+                        )
+                    </if>
+                </#if>
+            </#list>
+        </trim>
+    </update>
+
+    <!--  修改 -->
+    <update id="updateByMap" parameterType="java.util.Map">
+        update `${table.tableName}`
+        <trim prefix = "set" suffixOverrides = ",">
+            <#list table.cloumns as cloumn>
+                <#if cloumn_has_next>
+                    <#if  cloumn.cloumnName!='id'>
+                        <#if  cloumn.cloumnName=='update_time'>
+                            `${cloumn.cloumnName}` = now(),
+                        </#if>
+                        <#if  cloumn.cloumnName!='update_time'>
+                            `${cloumn.cloumnName}` = ${r"#{"}${cloumn.fieldName}},
+                        </#if>
+                    </#if>
+                <#else>
+                    <#if  cloumn.cloumnName!='id'>
+                        <#if  cloumn.cloumnName=='update_time'>
+                            `${cloumn.cloumnName}` = now()
+                        </#if>
+                        <#if  cloumn.cloumnName!='update_time'>
+                            `${cloumn.cloumnName}` = ${r"#{"}${cloumn.fieldName}}
+                        </#if>
+                    </#if>
+                </#if>
+            </#list>
+        </trim>
+        <trim prefix="where" prefixOverrides = "and | or">
+            <#list table.cloumns as cloumn>
                     <#if  cloumn.cloumnName=='create_time'>
                             <!--创建时间大于开始时间，创建时间小于结束时间 &gt;-->
                             <if test="startTime != null">
@@ -420,6 +483,39 @@
         </trim>
     </update>
 
+    <!--  修改：判断不是空的才修改 -->
+    <update id="updateNotNullById" parameterType="${pojo}.${table.className}">
+        update `${table.tableName}`
+        <trim prefix = "set" suffixOverrides = ",">
+            <#list table.cloumns as cloumn>
+                <#if cloumn_has_next>
+                    <#if  cloumn.cloumnName!='id'>
+                        <#if  cloumn.cloumnName=='update_time'>
+                            `${cloumn.cloumnName}` = now(),
+                        </#if>
+                        <#if  cloumn.cloumnName!='update_time'>
+                            `${cloumn.cloumnName}` = ${r"#{"}${cloumn.fieldName}},
+                        </#if>
+                    </#if>
+                <#else>
+                    <#if  cloumn.cloumnName!='id'>
+                        <#if  cloumn.cloumnName=='update_time'>
+                            `${cloumn.cloumnName}` = now()
+                        </#if>
+                        <#if  cloumn.cloumnName!='update_time'>
+                            `${cloumn.cloumnName}` = ${r"#{"}${cloumn.fieldName}}
+                        </#if>
+                    </#if>
+                </#if>
+            </#list>
+        </trim>
+        <#list table.cloumns as cloumn>
+            <#if cloumn_index==0>
+                where ${cloumn.cloumnName} = ${r"#{"}${cloumn.fieldName}}
+                <#break>
+            </#if>
+        </#list>
+    </update>
 
     <!--  修改 -->
     <update id="updateById" parameterType="${pojo}.${table.className}">
