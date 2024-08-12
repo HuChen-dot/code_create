@@ -16,41 +16,41 @@
 
     <sql id="Base_Column_List_if">
         <#list table.cloumns as cloumn>
-                <#if  cloumn.cloumnName=='create_time'>
-                        <!--创建时间大于开始时间，创建时间小于结束时间 &gt;-->
-                        <if test="startTime != null">
-                            and  create_time &gt;= ${r"#{"}startTime}
-                        </if>
-                        <!--创建时间大于开始时间，创建时间小于结束时间 &gt;-->
-                        <if test="endTime != null">
-                            and  create_time &lt;= ${r"#{"}endTime}
-                        </if>
-                </#if>
-                <#if  cloumn.cloumnName!='create_time'>
-                    <#if  cloumn.cloumnType=='varchar'>
-                        <if test="${cloumn.fieldName} != null and ${cloumn.fieldName} != ''">
-                            and `${cloumn.cloumnName}` = ${r"#{"}${cloumn.fieldName}}
-                        </if>
-                    </#if>
-                    <#if  cloumn.cloumnType!='varchar'>
-                        <if test="${cloumn.fieldName} != null">
-                            and `${cloumn.cloumnName}` = ${r"#{"}${cloumn.fieldName}}
-                        </if>
-                    </#if>
-                </#if>
-                <#if  cloumn.cloumnName=='id'>
-                        <if test="ids != null and ids.size() > 0">
-                            and `${cloumn.cloumnName}` in (
-                            <foreach collection="ids" item="id" separator=",">
-                                ${r"#{"}${cloumn.fieldName}}
-                            </foreach>
-                        )
-                        </if>
-                </#if>
-                <#if  cloumn.cloumnName=='name'>
-                    <if test="nameLike != null and nameLike !=''">
-                        and `${cloumn.cloumnName}` like CONCAT(CONCAT('%', ${r"#{"}${cloumn.fieldName}}), '%'))
+            <#if  cloumn.cloumnName=='create_time'>
+                <!--创建时间大于开始时间，创建时间小于结束时间 &gt;-->
+                <if test="startTimeIf != null">
+                    and  create_time &gt;= ${r"#{"}startTimeIf}
+                </if>
+                <!--创建时间大于开始时间，创建时间小于结束时间 &gt;-->
+                <if test="endTimeIf != null">
+                    and  create_time &lt;= ${r"#{"}endTimeIf}
+                </if>
+            </#if>
+            <#if  cloumn.cloumnName!='create_time'>
+                <#if  cloumn.cloumnType=='varchar'>
+                    <if test="${cloumn.fieldName}If != null and ${cloumn.fieldName}If != ''">
+                        and `${cloumn.cloumnName}` = ${r"#{"}${cloumn.fieldName}If}
                     </if>
+                </#if>
+                <#if  cloumn.cloumnType!='varchar'>
+                    <if test="${cloumn.fieldName}If != null">
+                        and `${cloumn.cloumnName}` = ${r"#{"}${cloumn.fieldName}If}
+                    </if>
+                </#if>
+            </#if>
+            <#if  cloumn.cloumnName=='id'>
+                <if test="idIfs != null and idIfs.size() > 0">
+                    and `${cloumn.cloumnName}` in (
+                    <foreach collection="idIfs" item="id" separator=",">
+                        ${r"#{"}${cloumn.fieldName}}
+                    </foreach>
+                    )
+                </if>
+            </#if>
+            <#if  cloumn.cloumnName=='name'>
+                <if test="nameLikeIf != null and nameLikeIf !=''">
+                    and `${cloumn.cloumnName}` like CONCAT(CONCAT('%', ${r"#{"}${cloumn.fieldName}If}), '%'))
+                </if>
             </#if>
         </#list>
     </sql>
@@ -383,40 +383,8 @@
                 </#if>
             </#list>
         </trim>
-        <trim prefix="where" prefixOverrides = "and | or">
-            <#list table.cloumns as cloumn>
-                <#if  cloumn.cloumnName=='create_time'>
-                    <!--创建时间大于开始时间，创建时间小于结束时间 &gt;-->
-                    <if test="startTime != null">
-                        and  create_time &gt;= ${r"#{"}startTime}
-                    </if>
-                    <!--创建时间大于开始时间，创建时间小于结束时间 &gt;-->
-                    <if test="endTime != null">
-                        and  create_time &lt;= ${r"#{"}endTime}
-                    </if>
-                </#if>
-                <#if  cloumn.cloumnName!='create_time'>
-                    <#if  cloumn.cloumnType=='varchar'>
-                        <if test="${cloumn.fieldName}If != null and ${cloumn.fieldName}If != ''">
-                            and `${cloumn.cloumnName}` = ${r"#{"}${cloumn.fieldName}If}
-                        </if>
-                    </#if>
-                    <#if  cloumn.cloumnType!='varchar'>
-                        <if test="${cloumn.fieldName}If != null">
-                            and `${cloumn.cloumnName}` = ${r"#{"}${cloumn.fieldName}If}
-                        </if>
-                    </#if>
-                </#if>
-                <#if  cloumn.cloumnName=='id'>
-                    <if test="idIfs != null and idIfs.size() > 0">
-                        and `${cloumn.cloumnName}` in (
-                        <foreach collection="idIfs" item="id" separator=",">
-                            ${r"#{"}${cloumn.fieldName}}
-                        </foreach>
-                        )
-                    </if>
-                </#if>
-            </#list>
+        <trim prefix = "where" prefixOverrides = "and | or">
+            <include refid = "Base_Column_List_if"/>
         </trim>
     </update>
 
@@ -446,40 +414,8 @@
                 </#if>
             </#list>
         </trim>
-        <trim prefix="where" prefixOverrides = "and | or">
-            <#list table.cloumns as cloumn>
-                    <#if  cloumn.cloumnName=='create_time'>
-                            <!--创建时间大于开始时间，创建时间小于结束时间 &gt;-->
-                            <if test="startTime != null">
-                                and  create_time &gt;= ${r"#{"}startTime}
-                            </if>
-                            <!--创建时间大于开始时间，创建时间小于结束时间 &gt;-->
-                            <if test="endTime != null">
-                                and  create_time &lt;= ${r"#{"}endTime}
-                            </if>
-                    </#if>
-                    <#if  cloumn.cloumnName!='create_time'>
-                        <#if  cloumn.cloumnType=='varchar'>
-                            <if test="${cloumn.fieldName}If != null and ${cloumn.fieldName}If != ''">
-                                and `${cloumn.cloumnName}` = ${r"#{"}${cloumn.fieldName}If}
-                            </if>
-                        </#if>
-                        <#if  cloumn.cloumnType!='varchar'>
-                            <if test="${cloumn.fieldName}If != null">
-                                and `${cloumn.cloumnName}` = ${r"#{"}${cloumn.fieldName}If}
-                            </if>
-                        </#if>
-                    </#if>
-                <#if  cloumn.cloumnName=='id'>
-                    <if test="idIfs != null and idIfs.size() > 0">
-                        and `${cloumn.cloumnName}` in (
-                        <foreach collection="idIfs" item="id" separator=",">
-                            ${r"#{"}${cloumn.fieldName}}
-                        </foreach>
-                        )
-                    </if>
-                </#if>
-            </#list>
+        <trim prefix = "where" prefixOverrides = "and | or">
+            <include refid = "Base_Column_List_if"/>
         </trim>
     </update>
 
