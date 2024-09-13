@@ -28,14 +28,25 @@ public class FreeMarkerUtils {
     public static void genteratorFile(boolean override, Map<String, String> input, String template_path, String templateFileName,
                                       String savePath, String fileName) {
         Template template = getTemplate(template_path, templateFileName);
+//        File file = new File(savePath + "/" + fileName);
+//        if (isFileReallyExists(file) && !override) {
+//            return;
+//        }
+//        File catalogue = new File(savePath);
+//        if (!isFileReallyExists(file)) {
+//            catalogue.mkdirs();
+//        }
+
         File file = new File(savePath + "/" + fileName);
-        if (file.exists() && !override) {
-            return;
+        if (file.exists()) {
+            file.delete();
         }
         File catalogue = new File(savePath);
-        if (!catalogue.exists()) {
-            catalogue.mkdirs();
+        if (catalogue.exists()) {
+            catalogue.delete();
         }
+        catalogue.mkdirs();
+
         Writer writer = null;
         FileOutputStream fileOutputStream = null;
         try {
