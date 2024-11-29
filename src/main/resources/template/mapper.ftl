@@ -419,7 +419,7 @@
         </trim>
     </update>
 
-    <!--  修改：判断不是空的才修改 -->
+    <!-- 修改：判断不是空的才修改  -->
     <update id="updateNotNullById" parameterType="${pojo}.${table.className}">
         update `${table.tableName}`
         <trim prefix = "set" suffixOverrides = ",">
@@ -430,7 +430,16 @@
                             `${cloumn.cloumnName}` = now(),
                         </#if>
                         <#if  cloumn.cloumnName!='update_time'>
-                            `${cloumn.cloumnName}` = ${r"#{"}${cloumn.fieldName}},
+                            <#if  cloumn.cloumnType=='varchar'>
+                                <if test="${cloumn.fieldName} != null and ${cloumn.fieldName} != ''">
+                                    `${cloumn.cloumnName}` = ${r"#{"}${cloumn.fieldName}},
+                                </if>
+                            </#if>
+                            <#if  cloumn.cloumnType!='varchar'>
+                                <if test="${cloumn.fieldName} != null">
+                                    `${cloumn.cloumnName}` = ${r"#{"}${cloumn.fieldName}},
+                                </if>
+                            </#if>
                         </#if>
                     </#if>
                 <#else>
@@ -439,7 +448,16 @@
                             `${cloumn.cloumnName}` = now()
                         </#if>
                         <#if  cloumn.cloumnName!='update_time'>
-                            `${cloumn.cloumnName}` = ${r"#{"}${cloumn.fieldName}}
+                            <#if  cloumn.cloumnType=='varchar'>
+                                <if test="${cloumn.fieldName} != null and ${cloumn.fieldName} != ''">
+                                    `${cloumn.cloumnName}` = ${r"#{"}${cloumn.fieldName}}
+                                </if>
+                            </#if>
+                            <#if  cloumn.cloumnType!='varchar'>
+                                <if test="${cloumn.fieldName} != null">
+                                    `${cloumn.cloumnName}` = ${r"#{"}${cloumn.fieldName}}
+                                </if>
+                            </#if>
                         </#if>
                     </#if>
                 </#if>
@@ -464,16 +482,7 @@
                             `${cloumn.cloumnName}` = now(),
                         </#if>
                         <#if  cloumn.cloumnName!='update_time'>
-                            <#if  cloumn.cloumnType=='varchar'>
-                                <if test="${cloumn.fieldName} != null and ${cloumn.fieldName} != ''">
-                                    `${cloumn.cloumnName}` = ${r"#{"}${cloumn.fieldName}},
-                                </if>
-                            </#if>
-                            <#if  cloumn.cloumnType!='varchar'>
-                                <if test="${cloumn.fieldName} != null">
-                                    `${cloumn.cloumnName}` = ${r"#{"}${cloumn.fieldName}},
-                                </if>
-                            </#if>
+                            `${cloumn.cloumnName}` = ${r"#{"}${cloumn.fieldName}},
                         </#if>
                     </#if>
                 <#else>
@@ -482,16 +491,7 @@
                             `${cloumn.cloumnName}` = now()
                         </#if>
                         <#if  cloumn.cloumnName!='update_time'>
-                            <#if  cloumn.cloumnType=='varchar'>
-                                <if test="${cloumn.fieldName} != null and ${cloumn.fieldName} != ''">
-                                    `${cloumn.cloumnName}` = ${r"#{"}${cloumn.fieldName}}
-                                </if>
-                            </#if>
-                            <#if  cloumn.cloumnType!='varchar'>
-                                <if test="${cloumn.fieldName} != null">
-                                    `${cloumn.cloumnName}` = ${r"#{"}${cloumn.fieldName}}
-                                </if>
-                            </#if>
+                            `${cloumn.cloumnName}` = ${r"#{"}${cloumn.fieldName}}
                         </#if>
                     </#if>
                 </#if>
