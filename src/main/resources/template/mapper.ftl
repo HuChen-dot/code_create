@@ -53,6 +53,9 @@
                 </if>
             </#if>
         </#list>
+        <if test="orderBy != null and orderBy !=''">
+            order by ${r"${"}orderBy}
+        </if>
     </sql>
 
     <!-- 主键查询 -->
@@ -71,18 +74,6 @@
     <!-- 多条件查询-->
     <select id="select" resultType="${pojo}.${table.className}"
             parameterType="java.util.Map">
-        select
-        <include refid = "Base_Column_List"/>
-        from `${table.tableName}`
-        <trim prefix = "where" prefixOverrides = "and | or">
-            <include refid = "Base_Column_List_if"/>
-        </trim>
-    </select>
-
-
-    <!-- 流式查询-->
-    <select id="flowSelect" resultSetType="FORWARD_ONLY" fetchSize="-2147483648" resultType = "${pojo}.${table.className}"
-            parameterType = "java.util.Map">
         select
         <include refid = "Base_Column_List"/>
         from `${table.tableName}`

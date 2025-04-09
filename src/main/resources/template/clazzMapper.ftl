@@ -29,22 +29,6 @@ public interface ${table.className}Mapper{
     */
     List<${table.className}> select(Map<String,Object> param);
 
-
-    /**
-     * 流式查询
-     * 注意：
-     * 1：需要在jdbc的url上添加参数：useCursorFetch=true
-     * 2：因为取数据时需要保持连接的打开。不能使用@Autowired注入的mapper。需要使用sqlSessionFactory
-     *  在类里面@Autowired 注入：sqlSessionFactory ，然后在方法中：
-     *     SqlSession sqlSession = sqlSessionFactory.openSession();
-     *      //获取mapper
-     *      ApprenticeDAO apprenticeDAO=sqlSession.getMapper(ApprenticeDAO.class);
-     * @param param
-     * @return
-    */
-    Cursor<${table.className}> flowSelect(Map<String,Object> param);
-
-
     /**
      * 添加
      * @param ${lowerClassName}
