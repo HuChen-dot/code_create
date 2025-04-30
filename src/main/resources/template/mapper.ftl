@@ -345,10 +345,16 @@
                                 <if test="${cloumn.fieldName} != null and ${cloumn.fieldName} != ''">
                                     `${cloumn.cloumnName}` = ${r"#{"}${cloumn.fieldName}},
                                 </if>
+                                <if test="${cloumn.fieldName}ToNull != null and ${cloumn.fieldName}ToNull != ''">
+                                    `${cloumn.cloumnName}` = null,
+                                </if>
                             </#if>
                             <#if  cloumn.cloumnType!='varchar'>
                                 <if test="${cloumn.fieldName} != null">
                                     `${cloumn.cloumnName}` = ${r"#{"}${cloumn.fieldName}},
+                                </if>
+                                <if test="${cloumn.fieldName}ToNull != null">
+                                    `${cloumn.cloumnName}` = null,
                                 </if>
                             </#if>
                         </#if>
@@ -363,10 +369,16 @@
                                 <if test="${cloumn.fieldName} != null and ${cloumn.fieldName} != ''">
                                     `${cloumn.cloumnName}` = ${r"#{"}${cloumn.fieldName}}
                                 </if>
+                                <if test="${cloumn.fieldName}ToNull != null and ${cloumn.fieldName}ToNull != ''">
+                                    `${cloumn.cloumnName}` = null
+                                </if>
                             </#if>
                             <#if  cloumn.cloumnType!='varchar'>
                                 <if test="${cloumn.fieldName} != null">
                                     `${cloumn.cloumnName}` = ${r"#{"}${cloumn.fieldName}}
+                                </if>
+                                <if test="${cloumn.fieldName}ToNull != null">
+                                    `${cloumn.cloumnName}` = null
                                 </if>
                             </#if>
                         </#if>
