@@ -18,11 +18,11 @@
         <#list table.cloumns as cloumn>
             <#if  cloumn.cloumnName=='create_time'>
                 <!--创建时间大于开始时间，创建时间小于结束时间 &gt;-->
-                <if test="startTimeIf != null">
+                <if test="startTimeIf != null and startTimeIf != ''">
                     and  create_time &gt;= ${r"#{"}startTimeIf}
                 </if>
                 <!--创建时间大于开始时间，创建时间小于结束时间 &gt;-->
-                <if test="endTimeIf != null">
+                <if test="endTimeIf != null and endTimeIf != ''">
                     and  create_time &lt;= ${r"#{"}endTimeIf}
                 </if>
             </#if>
@@ -56,6 +56,152 @@
         <if test="orderBy != null and orderBy !=''">
             order by ${r"${"}orderBy}
         </if>
+    </sql>
+
+    <sql id="Add_Base_Column_List">
+        <trim suffixOverrides = ",">
+            <#list table.cloumns as cloumn>
+                <#if cloumn_has_next>
+                    <#if  cloumn.cloumnName=='update_time' || cloumn.cloumnName=='create_time'>
+                        `${cloumn.cloumnName}`,
+                    </#if>
+                    <#if  cloumn.cloumnName!='update_time' && cloumn.cloumnName!='create_time'>
+                        <#if  cloumn.cloumnType=='varchar'>
+                            <if test="${cloumn.fieldName} != null and ${cloumn.fieldName} != ''">
+                                `${cloumn.cloumnName}`,
+                            </if>
+                        </#if>
+                        <#if  cloumn.cloumnType!='varchar'>
+                            <if test="${cloumn.fieldName} != null">
+                                `${cloumn.cloumnName}`,
+                            </if>
+                        </#if>
+                    </#if>
+                <#else>
+                    <#if  cloumn.cloumnName=='update_time' || cloumn.cloumnName=='create_time'>
+                        `${cloumn.cloumnName}`
+                    </#if>
+                    <#if  cloumn.cloumnName!='update_time' && cloumn.cloumnName!='create_time'>
+                        <#if  cloumn.cloumnType=='varchar'>
+                            <if test="${cloumn.fieldName} != null and ${cloumn.fieldName} != ''">
+                                `${cloumn.cloumnName}`
+                            </if>
+                        </#if>
+                        <#if  cloumn.cloumnType!='varchar'>
+                            <if test="${cloumn.fieldName} != null">
+                                `${cloumn.cloumnName}`
+                            </if>
+                        </#if>
+                    </#if>
+                </#if>
+            </#list>
+        </trim>
+    </sql>
+
+    <sql id="Add_Base_Column_param">
+        <trim suffixOverrides = ",">
+            <#list table.cloumns as cloumn>
+                <#if cloumn_has_next>
+                    <#if  cloumn.cloumnName=='update_time' || cloumn.cloumnName=='create_time'>
+                        now(),
+                    </#if>
+                    <#if  cloumn.cloumnName!='update_time' && cloumn.cloumnName!='create_time'>
+                        <#if  cloumn.cloumnType=='varchar'>
+                            <if test="${cloumn.fieldName} != null and ${cloumn.fieldName} != ''">
+                                ${r"#{"}${cloumn.fieldName}},
+                            </if>
+                        </#if>
+                        <#if  cloumn.cloumnType!='varchar'>
+                            <if test="${cloumn.fieldName} != null">
+                                ${r"#{"}${cloumn.fieldName}},
+                            </if>
+                        </#if>
+                    </#if>
+                <#else>
+                    <#if  cloumn.cloumnName=='update_time' || cloumn.cloumnName=='create_time'>
+                        now()
+                    </#if>
+                    <#if  cloumn.cloumnName!='update_time' && cloumn.cloumnName!='create_time'>
+                        <#if  cloumn.cloumnType=='varchar'>
+                            <if test="${cloumn.fieldName} != null and ${cloumn.fieldName} != ''">
+                                ${r"#{"}${cloumn.fieldName}}
+                            </if>
+                        </#if>
+                        <#if  cloumn.cloumnType!='varchar'>
+                            <if test="${cloumn.fieldName} != null">
+                                ${r"#{"}${cloumn.fieldName}}
+                            </if>
+                        </#if>
+                    </#if>
+                </#if>
+            </#list>
+        </trim>
+    </sql>
+
+    <sql id="update_Base_Column_notnull_if">
+        <#list table.cloumns as cloumn>
+            <#if cloumn_has_next>
+                <#if  cloumn.cloumnName!='id'>
+                    <#if  cloumn.cloumnName=='update_time'>
+                        `${cloumn.cloumnName}` = now(),
+                    </#if>
+                    <#if  cloumn.cloumnName!='update_time'>
+                        <#if  cloumn.cloumnType=='varchar'>
+                            <if test="${cloumn.fieldName} != null and ${cloumn.fieldName} != ''">
+                                `${cloumn.cloumnName}` = ${r"#{"}${cloumn.fieldName}},
+                            </if>
+                        </#if>
+                        <#if  cloumn.cloumnType!='varchar'>
+                            <if test="${cloumn.fieldName} != null">
+                                `${cloumn.cloumnName}` = ${r"#{"}${cloumn.fieldName}},
+                            </if>
+                        </#if>
+                    </#if>
+                </#if>
+            <#else>
+                <#if  cloumn.cloumnName!='id'>
+                    <#if  cloumn.cloumnName=='update_time'>
+                        `${cloumn.cloumnName}` = now()
+                    </#if>
+                    <#if  cloumn.cloumnName!='update_time'>
+                        <#if  cloumn.cloumnType=='varchar'>
+                            <if test="${cloumn.fieldName} != null and ${cloumn.fieldName} != ''">
+                                `${cloumn.cloumnName}` = ${r"#{"}${cloumn.fieldName}}
+                            </if>
+                        </#if>
+                        <#if  cloumn.cloumnType!='varchar'>
+                            <if test="${cloumn.fieldName} != null">
+                                `${cloumn.cloumnName}` = ${r"#{"}${cloumn.fieldName}}
+                            </if>
+                        </#if>
+                    </#if>
+                </#if>
+            </#if>
+        </#list>
+    </sql>
+
+    <sql id="update_Base_Column_if">
+        <#list table.cloumns as cloumn>
+            <#if cloumn_has_next>
+                <#if  cloumn.cloumnName!='id'>
+                    <#if  cloumn.cloumnName=='update_time'>
+                        `${cloumn.cloumnName}` = now(),
+                    </#if>
+                    <#if  cloumn.cloumnName!='update_time'>
+                        `${cloumn.cloumnName}` = ${r"#{"}${cloumn.fieldName}},
+                    </#if>
+                </#if>
+            <#else>
+                <#if  cloumn.cloumnName!='id'>
+                    <#if  cloumn.cloumnName=='update_time'>
+                        `${cloumn.cloumnName}` = now()
+                    </#if>
+                    <#if  cloumn.cloumnName!='update_time'>
+                        `${cloumn.cloumnName}` = ${r"#{"}${cloumn.fieldName}}
+                    </#if>
+                </#if>
+            </#if>
+        </#list>
     </sql>
 
     <!-- 主键查询 -->
@@ -92,82 +238,10 @@
             </selectKey>
         </#if>
         insert into `${table.tableName}`(
-        <trim suffixOverrides = ",">
-            <#list table.cloumns as cloumn>
-                <#if cloumn_has_next>
-                        <#if  cloumn.cloumnName=='update_time' || cloumn.cloumnName=='create_time'>
-                            `${cloumn.cloumnName}`,
-                        </#if>
-                        <#if  cloumn.cloumnName!='update_time' && cloumn.cloumnName!='create_time'>
-                              <#if  cloumn.cloumnType=='varchar'>
-                                  <if test="${cloumn.fieldName} != null and ${cloumn.fieldName} != ''">
-                                      `${cloumn.cloumnName}`,
-                                  </if>
-                            </#if>
-                            <#if  cloumn.cloumnType!='varchar'>
-                                <if test="${cloumn.fieldName} != null">
-                                    `${cloumn.cloumnName}`,
-                                </if>
-                            </#if>
-                    </#if>
-                <#else>
-                        <#if  cloumn.cloumnName=='update_time' || cloumn.cloumnName=='create_time'>
-                            `${cloumn.cloumnName}`
-                        </#if>
-                        <#if  cloumn.cloumnName!='update_time' && cloumn.cloumnName!='create_time'>
-                            <#if  cloumn.cloumnType=='varchar'>
-                                <if test="${cloumn.fieldName} != null and ${cloumn.fieldName} != ''">
-                                    `${cloumn.cloumnName}`
-                                </if>
-                            </#if>
-                            <#if  cloumn.cloumnType!='varchar'>
-                                <if test="${cloumn.fieldName} != null">
-                                    `${cloumn.cloumnName}`
-                                </if>
-                            </#if>
-                        </#if>
-                </#if>
-            </#list>
-        </trim>
+        <include refid = "Add_Base_Column_List"/>
         )
         values(
-        <trim suffixOverrides = ",">
-            <#list table.cloumns as cloumn>
-                <#if cloumn_has_next>
-                        <#if  cloumn.cloumnName=='update_time' || cloumn.cloumnName=='create_time'>
-                            now(),
-                        </#if>
-                        <#if  cloumn.cloumnName!='update_time' && cloumn.cloumnName!='create_time'>
-                            <#if  cloumn.cloumnType=='varchar'>
-                                <if test="${cloumn.fieldName} != null and ${cloumn.fieldName} != ''">
-                                    ${r"#{"}${cloumn.fieldName}},
-                                </if>
-                            </#if>
-                            <#if  cloumn.cloumnType!='varchar'>
-                                <if test="${cloumn.fieldName} != null">
-                                    ${r"#{"}${cloumn.fieldName}},
-                                </if>
-                            </#if>
-                        </#if>
-                <#else>
-                        <#if  cloumn.cloumnName=='update_time' || cloumn.cloumnName=='create_time'>
-                            now()
-                        </#if>
-                        <#if  cloumn.cloumnName!='update_time' && cloumn.cloumnName!='create_time'>
-                            <#if  cloumn.cloumnType=='varchar'>
-                                <if test="${cloumn.fieldName} != null and ${cloumn.fieldName} != ''">
-                                    ${r"#{"}${cloumn.fieldName}}
-                                </if>
-                            </#if>
-                            <#if  cloumn.cloumnType!='varchar'>
-                                <if test="${cloumn.fieldName} != null">
-                                    ${r"#{"}${cloumn.fieldName}}
-                                </if>
-                            </#if>
-                        </#if>
-                </#if>
-            </#list>
-        </trim>
+        <include refid = "Add_Base_Column_param"/>
         )
     </insert>
 
@@ -213,82 +287,10 @@
             </selectKey>
         </#if>
         insert into `${table.tableName}`(
-        <trim suffixOverrides=",">
-            <#list table.cloumns as cloumn>
-                <#if cloumn_has_next>
-                    <#if  cloumn.cloumnName=='update_time' || cloumn.cloumnName=='create_time'>
-                        `${cloumn.cloumnName}`,
-                    </#if>
-                    <#if  cloumn.cloumnName!='update_time' && cloumn.cloumnName!='create_time'>
-                        <#if  cloumn.cloumnType=='varchar'>
-                            <if test="${cloumn.fieldName} != null and ${cloumn.fieldName} != ''">
-                                `${cloumn.cloumnName}`,
-                            </if>
-                        </#if>
-                        <#if  cloumn.cloumnType!='varchar'>
-                            <if test="${cloumn.fieldName} != null">
-                                `${cloumn.cloumnName}`,
-                            </if>
-                        </#if>
-                    </#if>
-                <#else>
-                    <#if  cloumn.cloumnName=='update_time' || cloumn.cloumnName=='create_time'>
-                        `${cloumn.cloumnName}`
-                    </#if>
-                    <#if  cloumn.cloumnName!='update_time' && cloumn.cloumnName!='create_time'>
-                        <#if  cloumn.cloumnType=='varchar'>
-                            <if test="${cloumn.fieldName} != null and ${cloumn.fieldName} != ''">
-                                `${cloumn.cloumnName}`
-                            </if>
-                        </#if>
-                        <#if  cloumn.cloumnType!='varchar'>
-                            <if test="${cloumn.fieldName} != null">
-                                `${cloumn.cloumnName}`
-                            </if>
-                        </#if>
-                    </#if>
-                </#if>
-            </#list>
-        </trim>
+        <include refid = "Add_Base_Column_List"/>
         )
         values(
-        <trim suffixOverrides=",">
-            <#list table.cloumns as cloumn>
-                <#if cloumn_has_next>
-                    <#if  cloumn.cloumnName=='update_time' || cloumn.cloumnName=='create_time'>
-                        now(),
-                    </#if>
-                    <#if  cloumn.cloumnName!='update_time' && cloumn.cloumnName!='create_time'>
-                        <#if  cloumn.cloumnType=='varchar'>
-                            <if test="${cloumn.fieldName} != null and ${cloumn.fieldName} != ''">
-                                ${r"#{"}${cloumn.fieldName}},
-                            </if>
-                        </#if>
-                        <#if  cloumn.cloumnType!='varchar'>
-                            <if test="${cloumn.fieldName} != null">
-                                ${r"#{"}${cloumn.fieldName}},
-                            </if>
-                        </#if>
-                    </#if>
-                <#else>
-                    <#if  cloumn.cloumnName=='update_time' || cloumn.cloumnName=='create_time'>
-                        now()
-                    </#if>
-                    <#if  cloumn.cloumnName!='update_time' && cloumn.cloumnName!='create_time'>
-                        <#if  cloumn.cloumnType=='varchar'>
-                            <if test="${cloumn.fieldName} != null and ${cloumn.fieldName} != ''">
-                                ${r"#{"}${cloumn.fieldName}}
-                            </if>
-                        </#if>
-                        <#if  cloumn.cloumnType!='varchar'>
-                            <if test="${cloumn.fieldName} != null">
-                                ${r"#{"}${cloumn.fieldName}}
-                            </if>
-                        </#if>
-                    </#if>
-                </#if>
-            </#list>
-        </trim>
+        <include refid = "Add_Base_Column_param"/>
         )
         ON DUPLICATE KEY UPDATE
         <trim suffixOverrides=",">
@@ -334,57 +336,7 @@
     <update id="updateNotNullByMap" parameterType="java.util.Map">
         update `${table.tableName}`
         <trim prefix = "set" suffixOverrides = ",">
-            <#list table.cloumns as cloumn>
-                <#if cloumn_has_next>
-                    <#if  cloumn.cloumnName!='id'>
-                        <#if  cloumn.cloumnName=='update_time'>
-                            `${cloumn.cloumnName}` = now(),
-                        </#if>
-                        <#if  cloumn.cloumnName!='update_time'>
-                            <#if  cloumn.cloumnType=='varchar'>
-                                <if test="${cloumn.fieldName} != null and ${cloumn.fieldName} != ''">
-                                    `${cloumn.cloumnName}` = ${r"#{"}${cloumn.fieldName}},
-                                </if>
-                                <if test="${cloumn.fieldName}ToNull != null and ${cloumn.fieldName}ToNull != ''">
-                                    `${cloumn.cloumnName}` = null,
-                                </if>
-                            </#if>
-                            <#if  cloumn.cloumnType!='varchar'>
-                                <if test="${cloumn.fieldName} != null">
-                                    `${cloumn.cloumnName}` = ${r"#{"}${cloumn.fieldName}},
-                                </if>
-                                <if test="${cloumn.fieldName}ToNull != null">
-                                    `${cloumn.cloumnName}` = null,
-                                </if>
-                            </#if>
-                        </#if>
-                    </#if>
-                <#else>
-                    <#if  cloumn.cloumnName!='id'>
-                        <#if  cloumn.cloumnName=='update_time'>
-                            `${cloumn.cloumnName}` = now()
-                        </#if>
-                        <#if  cloumn.cloumnName!='update_time'>
-                            <#if  cloumn.cloumnType=='varchar'>
-                                <if test="${cloumn.fieldName} != null and ${cloumn.fieldName} != ''">
-                                    `${cloumn.cloumnName}` = ${r"#{"}${cloumn.fieldName}}
-                                </if>
-                                <if test="${cloumn.fieldName}ToNull != null and ${cloumn.fieldName}ToNull != ''">
-                                    `${cloumn.cloumnName}` = null
-                                </if>
-                            </#if>
-                            <#if  cloumn.cloumnType!='varchar'>
-                                <if test="${cloumn.fieldName} != null">
-                                    `${cloumn.cloumnName}` = ${r"#{"}${cloumn.fieldName}}
-                                </if>
-                                <if test="${cloumn.fieldName}ToNull != null">
-                                    `${cloumn.cloumnName}` = null
-                                </if>
-                            </#if>
-                        </#if>
-                    </#if>
-                </#if>
-            </#list>
+            <include refid = "update_Base_Column_notnull_if"/>
         </trim>
         <trim prefix = "where" prefixOverrides = "and | or">
             <include refid = "Base_Column_List_if"/>
@@ -395,27 +347,8 @@
     <update id="updateByMap" parameterType="java.util.Map">
         update `${table.tableName}`
         <trim prefix = "set" suffixOverrides = ",">
-            <#list table.cloumns as cloumn>
-                <#if cloumn_has_next>
-                    <#if  cloumn.cloumnName!='id'>
-                        <#if  cloumn.cloumnName=='update_time'>
-                            `${cloumn.cloumnName}` = now(),
-                        </#if>
-                        <#if  cloumn.cloumnName!='update_time'>
-                            `${cloumn.cloumnName}` = ${r"#{"}${cloumn.fieldName}},
-                        </#if>
-                    </#if>
-                <#else>
-                    <#if  cloumn.cloumnName!='id'>
-                        <#if  cloumn.cloumnName=='update_time'>
-                            `${cloumn.cloumnName}` = now()
-                        </#if>
-                        <#if  cloumn.cloumnName!='update_time'>
-                            `${cloumn.cloumnName}` = ${r"#{"}${cloumn.fieldName}}
-                        </#if>
-                    </#if>
-                </#if>
-            </#list>
+            <include refid = "update_Base_Column_if"/>
+
         </trim>
         <trim prefix = "where" prefixOverrides = "and | or">
             <include refid = "Base_Column_List_if"/>
@@ -426,45 +359,7 @@
     <update id="updateNotNullById" parameterType="${pojo}.${table.className}">
         update `${table.tableName}`
         <trim prefix = "set" suffixOverrides = ",">
-            <#list table.cloumns as cloumn>
-                <#if cloumn_has_next>
-                    <#if  cloumn.cloumnName!='id'>
-                        <#if  cloumn.cloumnName=='update_time'>
-                            `${cloumn.cloumnName}` = now(),
-                        </#if>
-                        <#if  cloumn.cloumnName!='update_time'>
-                            <#if  cloumn.cloumnType=='varchar'>
-                                <if test="${cloumn.fieldName} != null and ${cloumn.fieldName} != ''">
-                                    `${cloumn.cloumnName}` = ${r"#{"}${cloumn.fieldName}},
-                                </if>
-                            </#if>
-                            <#if  cloumn.cloumnType!='varchar'>
-                                <if test="${cloumn.fieldName} != null">
-                                    `${cloumn.cloumnName}` = ${r"#{"}${cloumn.fieldName}},
-                                </if>
-                            </#if>
-                        </#if>
-                    </#if>
-                <#else>
-                    <#if  cloumn.cloumnName!='id'>
-                        <#if  cloumn.cloumnName=='update_time'>
-                            `${cloumn.cloumnName}` = now()
-                        </#if>
-                        <#if  cloumn.cloumnName!='update_time'>
-                            <#if  cloumn.cloumnType=='varchar'>
-                                <if test="${cloumn.fieldName} != null and ${cloumn.fieldName} != ''">
-                                    `${cloumn.cloumnName}` = ${r"#{"}${cloumn.fieldName}}
-                                </if>
-                            </#if>
-                            <#if  cloumn.cloumnType!='varchar'>
-                                <if test="${cloumn.fieldName} != null">
-                                    `${cloumn.cloumnName}` = ${r"#{"}${cloumn.fieldName}}
-                                </if>
-                            </#if>
-                        </#if>
-                    </#if>
-                </#if>
-            </#list>
+            <include refid = "update_Base_Column_notnull_if"/>
         </trim>
         <#list table.cloumns as cloumn>
             <#if cloumn_index==0>
@@ -478,27 +373,7 @@
     <update id="updateById" parameterType="${pojo}.${table.className}">
         update `${table.tableName}`
         <trim prefix = "set" suffixOverrides = ",">
-            <#list table.cloumns as cloumn>
-                <#if cloumn_has_next>
-                    <#if  cloumn.cloumnName!='id'>
-                        <#if  cloumn.cloumnName=='update_time'>
-                            `${cloumn.cloumnName}` = now(),
-                        </#if>
-                        <#if  cloumn.cloumnName!='update_time'>
-                            `${cloumn.cloumnName}` = ${r"#{"}${cloumn.fieldName}},
-                        </#if>
-                    </#if>
-                <#else>
-                    <#if  cloumn.cloumnName!='id'>
-                        <#if  cloumn.cloumnName=='update_time'>
-                            `${cloumn.cloumnName}` = now()
-                        </#if>
-                        <#if  cloumn.cloumnName!='update_time'>
-                            `${cloumn.cloumnName}` = ${r"#{"}${cloumn.fieldName}}
-                        </#if>
-                    </#if>
-                </#if>
-            </#list>
+            <include refid = "update_Base_Column_if"/>
         </trim>
         <#list table.cloumns as cloumn>
             <#if cloumn_index==0>
