@@ -46,15 +46,6 @@ public interface ${table.className}Mapper{
 
 
     /**
-     * 添加或者修改
-     * 此方法 会根据主键来进行判断，如果主键存在则修改，如果主键不存在，会检查是否有唯一索引，在根据唯一索引判断是新增还是修改
-     * @param ${lowerClassName}
-     * @return
-    */
-    Integer saveOrUpdate(${table.className} ${lowerClassName});
-
-
-    /**
      * 修改：判断不是空的才修改
      * @param param
      * @return
