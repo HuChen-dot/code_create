@@ -69,20 +69,20 @@ public class TableHandler {
                 List<Map> result = JdbcUtil.queryList(columnSql, Map.class,databases,table.getTableName());
                 Set<String> item = new HashSet<>();
                 for (Map map : result) {
-                    if (!item.add(String.valueOf(map.get("columnName")).toLowerCase())) {
+                    if (!item.add(String.valueOf(map.get("columnName")))) {
                         continue;
                     }
 
                     Cloumn cloumn = new Cloumn();
                     // 设置列属性
-                    cloumn.setCloumnName(String.valueOf(map.get("columnName")).toLowerCase());
+                    cloumn.setCloumnName(String.valueOf(map.get("columnName")));
                     // 获取注释；如果这里注释为空，模板页面获取不到就会报错，所以给个初始值" "；
                     String far = "";
                     if (map.get("columnComment") != null) {
                         far =String.valueOf(map.get("columnComment"));
                     }
                     cloumn.setComment(far);
-                    cloumn.setCloumnType(String.valueOf(map.get("dataType")).toLowerCase());
+                    cloumn.setCloumnType(String.valueOf(map.get("dataType")));
                     table.getCloumns().add(cloumn);
                 }
             }
