@@ -44,9 +44,6 @@
                 </if>
             </#if>
         </#list>
-        <if test="orderBy != null and orderBy !=''">
-            order by ${r"${"}orderBy}
-        </if>
     </sql>
 
     <sql id="update_Base_Set_Not_Null">
@@ -135,6 +132,9 @@
         <trim prefix = "where" prefixOverrides = "and | or">
             <include refid = "where_if"/>
         </trim>
+        <if test="orderBy != null and orderBy !=''">
+            order by ${r"${"}orderBy}
+        </if>
     </select>
 
 
